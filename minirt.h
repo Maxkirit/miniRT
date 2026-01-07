@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 13:57:48 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:06:20 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,17 @@ typedef struct s_window
 t_tuple	vector(double x, double y, double z);
 // vector operations
 double	dot(t_tuple a, t_tuple b);
+t_tuple	mult_vec_scalar(t_tuple vec, double scal);
+double	vec_magnitude(t_tuple vec);
+t_tuple	vec_normalise(t_tuple vec);
+double	dot_product(t_tuple a, t_tuple b);
+t_tuple	cross_product(t_tuple a, t_tuple b);
 // matrix operations
 t_mat	new_matrix(int rows, int cols);
 t_mat	identity(void);
 double	get_data(t_mat mat, int i, int j);
 void	set_data(t_mat mat, int i, int j, double input);
+t_mat	mat_mult(t_mat a, t_mat b);
 // utils
 int		equal(double a, double b);
 
