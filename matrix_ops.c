@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 10:02:13 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 11:32:53 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:39:47 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ t_mat	mat_mult(t_mat a, t_mat b)
 t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup)
 {
 	t_tuple	res;
-	int		i;
-	int		j;
 
 	res.x = dot(mat_get_row(mat, 0), tup);
 	res.y = dot(mat_get_row(mat, 1), tup);

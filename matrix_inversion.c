@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 11:26:47 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 13:11:59 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:43:12 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ double	cofactor(t_mat mat, int row, int col)
 	if ((row + col) % 2 == 0)
 		return (min);
 	else
-		return (-min);
+		return (min * -1.0);
 }
 
 double	determinant(t_mat mat)

@@ -6,25 +6,19 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 13:00:44 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:56:58 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include "libft/src/libft.h"
 # include <stdlib.h>
 # include <math.h>
 
+
 # define EPSILON 0.000001
-
-typedef union	u_obj
-{
-	t_sphere	sphere;
-	t_plane		plane;
-	t_cylinder	cyl;
-}	t_obj;
-
 
 typedef struct	s_mat
 {
@@ -90,6 +84,13 @@ typedef struct	s_cylinder
 	t_mat		transform;
 }	t_cylinder;
 
+typedef union	u_obj
+{
+	t_sphere	sphere;
+	t_plane		plane;
+	t_cylinder	cyl;
+}	t_obj;
+
 typedef struct	s_light
 {
 	t_tuple	point;
@@ -144,9 +145,17 @@ t_tuple	vector(double x, double y, double z);
 double	dot(t_tuple a, t_tuple b);
 // matrix operations
 t_mat	new_matrix(int rows, int cols);
+void	destroy_matrix(t_mat mat);
 double	get_data(t_mat mat, int i, int j);
 void	set_data(t_mat mat, int i, int j, double input);
+t_mat	mat_mult(t_mat a, t_mat b);
+int		mat_equal(t_mat a, t_mat b);
+t_mat	identity(void);
 double	determinant(t_mat mat);
+t_mat	submatrix(t_mat mat, int row, int col);
+double	minor(t_mat mat, int row, int col);
+double	cofactor(t_mat mat, int row, int col);
+t_mat	inverse(t_mat mat);
 // utils
 int		equal(double a, double b);
 
