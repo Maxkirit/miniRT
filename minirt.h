@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 11:34:50 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:57:48 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ t_tuple	vector(double x, double y, double z);
 double	dot(t_tuple a, t_tuple b);
 // matrix operations
 t_mat	new_matrix(int rows, int cols);
+t_mat	identity(void);
 double	get_data(t_mat mat, int i, int j);
 void	set_data(t_mat mat, int i, int j, double input);
 // utils
