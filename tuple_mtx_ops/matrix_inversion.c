@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_inversion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 11:26:47 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 13:43:12 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:04:06 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 // check if new_matrix successful in calling function
 t_mat	submatrix(t_mat mat, int row, int col)

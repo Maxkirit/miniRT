@@ -6,11 +6,11 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 16:45:53 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/07 16:46:26 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:04:01 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 t_mat	sphere_mtx(t_shape obj)
 {

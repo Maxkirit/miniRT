@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 17:02:35 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:56:46 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINIRT_H
 
 # include "libft/src/libft.h"
+# include "mlx/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -133,9 +134,10 @@ typedef struct	s_shape
 typedef struct	s_world
 {
 	t_shape		*shapes;
-	int			num_objs;
+	int			num_shapes;
 	t_cam		cam;
 	t_light		*lights;
+	int			num_lights;
 	t_ambient	ambient;
 }	t_world;
 
@@ -148,22 +150,22 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
-typedef struct s_window
+typedef struct s_mlx
 {
+	void	*mlx_ptr;
 	void	*win;
 	t_image	img;
 	int		x;
 	int		y;
-}	t_window;
+}	t_mlx;
 
 // tuple operations
 t_tuple	vector(double x, double y, double z);
 // vector operations
-double	dot(t_tuple a, t_tuple b);
+double	dot_product(t_tuple a, t_tuple b);
 t_tuple	mult_vec_scalar(t_tuple vec, double scal);
 double	vec_magnitude(t_tuple vec);
 t_tuple	vec_normalise(t_tuple vec);
-double	dot_product(t_tuple a, t_tuple b);
 t_tuple	cross_product(t_tuple a, t_tuple b);
 // matrix operations
 t_mat	new_matrix(int rows, int cols);
@@ -184,5 +186,7 @@ t_mat	translate_mtx(t_tuple dest);
 t_mat	rotation_mtx(t_tuple dest_axis);
 // utils
 int		equal(double a, double b);
+//mlx
+void	init_mlx(t_mlx *data, int screen_x, int screen_y);
 
 #endif

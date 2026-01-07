@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 #include <stdio.h>
 
 void	print_matrix(t_mat mat, const char *name)

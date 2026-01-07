@@ -6,11 +6,11 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 08:43:46 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 14:25:29 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:04:21 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 t_tuple	mult_vec_scalar(t_tuple vec, double scal)
 {

@@ -6,11 +6,11 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 09:59:08 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 16:13:32 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:04:17 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 t_tuple	point(double x, double y, double z)
 {
