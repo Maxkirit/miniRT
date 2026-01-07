@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tuple_ops.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 09:59:08 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 09:59:54 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:13:32 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_tuple	point(double x, double y, double z)
 	return (pt);
 }
 
+// returns v = (x, y, z)
 t_tuple	vector(double x, double y, double z)
 {
 	t_tuple	vec;
@@ -34,6 +35,7 @@ t_tuple	vector(double x, double y, double z)
 	return (vec);
 }
 
+//returns a + b
 t_tuple	add_tuples(t_tuple a, t_tuple b)
 {
 	t_tuple	res;
@@ -45,6 +47,8 @@ t_tuple	add_tuples(t_tuple a, t_tuple b)
 	return (res);
 }
 
+
+//returns a - b
 t_tuple	substr_tuples(t_tuple a, t_tuple b)
 {
 	t_tuple	res;
@@ -56,6 +60,7 @@ t_tuple	substr_tuples(t_tuple a, t_tuple b)
 	return (res);
 }
 
+//returns -v
 t_tuple	neg_tuples(t_tuple a)
 {
 	t_tuple	res;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 10:02:13 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 13:39:47 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:23:48 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_mat	new_matrix(int rows, int cols)
 {
 	t_mat	mat;
 
-	mat.data = (double *) malloc(rows * cols * sizeof(double));
+	mat.data = (double *)ft_calloc(rows * cols, sizeof(double));
 	mat.rows = rows;
 	mat.cols = cols;
 	return (mat);
@@ -81,6 +81,7 @@ t_tuple	mat_get_row(t_mat mat, int row)
 }
 
 // multiply two 4x4 matrices
+// a is left and b is right
 // check if new_matrix successful in calling function
 t_mat	mat_mult(t_mat a, t_mat b)
 {
@@ -126,14 +127,10 @@ t_mat	identity(void)
 	if (res.data == NULL)
 		return (res);
 	i = 0;
-	while (i < 16)
-	{
-		if (i == 0 || i == 5 || i == 10 || i == 15)
-			res.data[i] = 1.0;
-		else
-			res.data[i] = 0.0;
-		i++;
-	}
+    set_data(res, 0, 0, 1.0);
+    set_data(res, 1, 1, 1.0);
+    set_data(res, 2, 2, 1.0);
+    set_data(res, 3, 3, 1.0);
 	return (res);
 }
 

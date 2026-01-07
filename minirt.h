@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 14:32:57 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:02:35 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct	s_sphere
 	double		radius;
 	t_material	mat;
 	t_mat		transform;
+	t_mat       transform_inv;
 }	t_sphere;
 
 typedef struct	s_plane
@@ -79,6 +80,7 @@ typedef struct	s_plane
 	t_tuple		normal_n;
 	t_material	mat;
 	t_mat		transform;
+	t_mat       transform_inv;
 }	t_plane;
 
 typedef struct	s_cylinder
@@ -89,6 +91,7 @@ typedef struct	s_cylinder
 	double		height;
 	t_material	mat;
 	t_mat		transform;
+	t_mat       transform_inv;
 }	t_cylinder;
 
 typedef union	u_obj
@@ -118,6 +121,7 @@ typedef struct	s_cam
 	double	fov;
 	double	pixel_step;
 	t_mat	transform;
+	t_mat	transform_inv;
 }	t_cam;
 
 typedef struct	s_shape
@@ -156,6 +160,11 @@ typedef struct s_window
 t_tuple	vector(double x, double y, double z);
 // vector operations
 double	dot(t_tuple a, t_tuple b);
+t_tuple	mult_vec_scalar(t_tuple vec, double scal);
+double	vec_magnitude(t_tuple vec);
+t_tuple	vec_normalise(t_tuple vec);
+double	dot_product(t_tuple a, t_tuple b);
+t_tuple	cross_product(t_tuple a, t_tuple b);
 // matrix operations
 t_mat	new_matrix(int rows, int cols);
 void	destroy_matrix(t_mat mat);
@@ -169,6 +178,10 @@ t_mat	submatrix(t_mat mat, int row, int col);
 double	minor(t_mat mat, int row, int col);
 double	cofactor(t_mat mat, int row, int col);
 t_mat	inverse(t_mat mat);
+//transformation matrices
+t_mat	scale_mtx(double x, double y, double z);
+t_mat	translate_mtx(t_tuple dest);
+t_mat	rotation_mtx(t_tuple dest_axis);
 // utils
 int		equal(double a, double b);
 
