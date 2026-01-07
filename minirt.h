@@ -6,12 +6,15 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/06 18:33:32 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 11:34:50 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+# include <stdlib.h>
+# include <math.h>
 
 # define EPSILON 0.000001
 
@@ -66,6 +69,7 @@ typedef struct	s_sphere
 	t_tuple		centre;
 	double		radius;
 	t_material	mat;
+	t_mat		transform;
 }	t_sphere;
 
 typedef struct	s_plane
@@ -73,6 +77,7 @@ typedef struct	s_plane
 	t_tuple		point;
 	t_tuple		normal_n;
 	t_material	mat;
+	t_mat		transform;
 }	t_plane;
 
 typedef struct	s_cylinder
@@ -82,6 +87,7 @@ typedef struct	s_cylinder
 	double		radius;
 	double		height;
 	t_material	mat;
+	t_mat		transform;
 }	t_cylinder;
 
 typedef struct	s_light
@@ -103,6 +109,7 @@ typedef struct	s_cam
 	t_tuple	normal_n;
 	double	fov;
 	double	pixel_step;
+	t_mat	transform;
 }	t_cam;
 
 typedef struct	s_world
@@ -130,5 +137,16 @@ typedef struct s_window
 	int		x;
 	int		y;
 }	t_window;
+
+// tuple operations
+t_tuple	vector(double x, double y, double z);
+// vector operations
+double	dot(t_tuple a, t_tuple b);
+// matrix operations
+t_mat	new_matrix(int rows, int cols);
+double	get_data(t_mat mat, int i, int j);
+void	set_data(t_mat mat, int i, int j, double input);
+// utils
+int		equal(double a, double b);
 
 #endif
