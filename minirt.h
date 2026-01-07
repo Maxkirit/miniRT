@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 15:23:47 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:06:22 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ double	dot_product(t_tuple a, t_tuple b);
 t_tuple	cross_product(t_tuple a, t_tuple b);
 // matrix operations
 t_mat	new_matrix(int rows, int cols);
-<<<<<<< HEAD
 void	destroy_matrix(t_mat mat);
 double	get_data(t_mat mat, int i, int j);
 void	set_data(t_mat mat, int i, int j, double input);
@@ -162,12 +161,6 @@ t_mat	submatrix(t_mat mat, int row, int col);
 double	minor(t_mat mat, int row, int col);
 double	cofactor(t_mat mat, int row, int col);
 t_mat	inverse(t_mat mat);
-=======
-t_mat	identity(void);
-double	get_data(t_mat mat, int i, int j);
-void	set_data(t_mat mat, int i, int j, double input);
-t_mat	mat_mult(t_mat a, t_mat b);
->>>>>>> b31c34b7c4df3c599133e0d3d37b1d8c80083c31
 // utils
 int		equal(double a, double b);
 
