@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 16:06:22 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:47:11 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,17 @@
 
 # include "libft/src/libft.h"
 # include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
 # include <math.h>
 
 
 # define EPSILON 0.000001
+
+typedef enum	e_type
+{
+	SPHERE, PLANE, CYLINDER
+}	t_type;
 
 typedef struct	s_mat
 {
@@ -64,6 +71,7 @@ typedef struct	s_sphere
 	double		radius;
 	t_material	mat;
 	t_mat		transform;
+	t_mat       transform_inv;
 }	t_sphere;
 
 typedef struct	s_plane
@@ -72,6 +80,7 @@ typedef struct	s_plane
 	t_tuple		normal_n;
 	t_material	mat;
 	t_mat		transform;
+	t_mat       transform_inv;
 }	t_plane;
 
 typedef struct	s_cylinder
@@ -82,6 +91,7 @@ typedef struct	s_cylinder
 	double		height;
 	t_material	mat;
 	t_mat		transform;
+	t_mat       transform_inv;
 }	t_cylinder;
 
 typedef union	u_obj
@@ -111,11 +121,18 @@ typedef struct	s_cam
 	double	fov;
 	double	pixel_step;
 	t_mat	transform;
+	t_mat	transform_inv;
 }	t_cam;
+
+typedef struct	s_shape
+{
+	t_type	type;
+	t_obj	obj;
+}	t_shape;
 
 typedef struct	s_world
 {
-	t_obj		*objs;
+	t_shape		*shapes;
 	int			num_objs;
 	t_cam		cam;
 	t_light		*lights;
@@ -161,6 +178,10 @@ t_mat	submatrix(t_mat mat, int row, int col);
 double	minor(t_mat mat, int row, int col);
 double	cofactor(t_mat mat, int row, int col);
 t_mat	inverse(t_mat mat);
+//transformation matrices
+t_mat	scale_mtx(double x, double y, double z);
+t_mat	translate_mtx(t_tuple dest);
+t_mat	rotation_mtx(t_tuple dest_axis);
 // utils
 int		equal(double a, double b);
 

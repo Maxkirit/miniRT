@@ -92,7 +92,3 @@ t_mat	rotation_mtx(t_tuple dest_axis)
 	z_new = cross_product(y_new, x_new);
 	return (build_rot_mtx(x_new, y_new, z_new));
 }
-//if (!res.data)--> malloc error
-t_mat	transfo_mtx()
-{
-}
