@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 13:56:58 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:32:57 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,17 @@
 
 # include "libft/src/libft.h"
 # include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
 # include <math.h>
 
 
 # define EPSILON 0.000001
+
+typedef enum	e_type
+{
+	SPHERE, PLANE, CYLINDER
+}	t_type;
 
 typedef struct	s_mat
 {
@@ -113,9 +120,15 @@ typedef struct	s_cam
 	t_mat	transform;
 }	t_cam;
 
+typedef struct	s_shape
+{
+	t_type	type;
+	t_obj	obj;
+}	t_shape;
+
 typedef struct	s_world
 {
-	t_obj		*objs;
+	t_shape		*shapes;
 	int			num_objs;
 	t_cam		cam;
 	t_light		*lights;
