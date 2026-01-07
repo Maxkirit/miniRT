@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 10:02:13 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 15:16:28 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:18:58 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_tuple	mat_get_row(t_mat mat, int row)
 }
 
 // multiply two 4x4 matrices
+// a is left and b is right
 // check if new_matrix successful in calling function
 t_mat	mat_mult(t_mat a, t_mat b)
 {
