@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 11:34:50 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:00:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ double	dot(t_tuple a, t_tuple b);
 t_mat	new_matrix(int rows, int cols);
 double	get_data(t_mat mat, int i, int j);
 void	set_data(t_mat mat, int i, int j, double input);
+double	determinant(t_mat mat);
 // utils
 int		equal(double a, double b);
 
