@@ -86,9 +86,12 @@ t_mat	rotation_mtx(t_tuple dest_axis)
 	t_tuple	a;
 
 	y_new = dest_axis;
-	a = vector(0.0, 0.0, 1.0);
+    if (equal(dest_axis.z, 1.0) || equal(dest_axis.z, -1.0))
+        a = vector(1.0, 0.0, 0.0);
+    else
+	    a = vector(0.0, 0.0, 1.0);
 	x_new = cross_product(a, y_new);
-	x_new = mult_vec_scalar(x_new, vec_magnitude(x_new));
+	x_new = mult_vec_scalar(x_new, 1 / vec_magnitude(x_new));
 	z_new = cross_product(y_new, x_new);
 	return (build_rot_mtx(x_new, y_new, z_new));
 }
