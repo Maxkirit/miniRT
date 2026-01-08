@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 16:04:43 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:34:01 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,12 @@ typedef struct s_mlx
 	int		y;
 }	t_mlx;
 
+typedef struct s_intersect
+{
+	double	*table;
+	int		size;
+}	t_intersect;
+
 // tuple operations
 t_tuple	point(double x, double y, double z);
 t_tuple	vector(double x, double y, double z);
@@ -171,6 +177,7 @@ void	destroy_matrix(t_mat mat);
 double	get_data(t_mat mat, int i, int j);
 void	set_data(t_mat mat, int i, int j, double input);
 t_mat	mat_mult(t_mat a, t_mat b);
+t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup);
 int		mat_equal(t_mat a, t_mat b);
 t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup);
 t_mat	identity(void);
@@ -189,10 +196,12 @@ t_mat	build_transfo_cam(t_cam cam);
 int		parse_file(char *file, t_world *world);
 // utils
 int		equal(double a, double b);
+double	square(double x);
 t_shape	*shape_realloc(t_shape *old, int new_size);
 t_light	*light_realloc(t_light *old, int new_size);
 int		check_int_conversion(char *str, int num);
 void	free_args(char **args);
+double	*res_realloc(double *res, int size, t_intersect sol);
 //mlx
 void	init_mlx(t_mlx *data, int screen_x, int screen_y);
 void	error(t_mlx *data);

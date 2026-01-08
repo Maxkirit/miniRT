@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 10:19:00 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 11:25:40 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/08 15:01:19 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,9 @@ int	equal(double a, double b)
 		return (1);
 	else
 		return (0);
+}
+
+double	square(double x)
+{
+	return (x * x);
 }

@@ -7,6 +7,7 @@ SRC = utils/math_utils.c \
 	tuple_mtx_ops/vector_ops.c \
 	mlx_functions/render_utils.c \
 	mlx_functions/mlx_event_handling.c \
+	intersections/intersections.c \
 	main.c
 
 NAME = minirt
@@ -38,6 +39,9 @@ $(OBJ_DIR)/%.o: tuple_mtx_ops/%.c | $(OBJ_DIR)
 	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: mlx_functions/%.c | $(OBJ_DIR)
+	$(CC) $(FLAGS) -Imlx -c $< -o $@
+
+$(OBJ_DIR)/%.o: intersections/%.c | $(OBJ_DIR)
 	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: utils/%.c | $(OBJ_DIR)
