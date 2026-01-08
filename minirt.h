@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 10:45:27 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 11:26:55 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "mlx/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
 
@@ -188,6 +189,10 @@ t_mat	build_transfo(t_shape obj);
 t_mat	build_transfo_cam(t_cam cam);
 // utils
 int		equal(double a, double b);
+t_shape	*shape_realloc(t_shape *old, int new_size);
+t_light	*light_realloc(t_light *old, int new_size);
+int		check_int_conversion(char *str, int num);
+void	free_args(char **args);
 //mlx
 void	init_mlx(t_mlx *data, int screen_x, int screen_y);
 void	error(t_mlx *data);
