@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 18:03:31 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/07 18:46:28 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:56:12 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	my_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = img->pointer + (y * img->line_size + x * (img->bits_per_pixel / 8));
+	dst = img->pixels + (y * img->line_size + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 	return ;
 }
@@ -30,7 +30,7 @@ void	my_pixel_put(t_image *img, int x, int y, int color)
 // 	data->img.pointer = mlx_new_image(data->mlx_ptr, data->x, data->y);
 // 	if (!data->img.pointer)
 // 		return (0);
-// 	data->img.pixels = mlx_get_data_addr(data->img.pointer, &data->img.bits_per_pixel,
+// 	data->img.pixels = mlx_get_data_addr(data->img.pointer, &data->bpp,
 // 			&data->img.line_size, &data->img.endian);
 // 	if (!data->img.pixels)
 //     {

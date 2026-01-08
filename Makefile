@@ -28,16 +28,16 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) #for main.c
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: tuple_mtx_ops/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: mlx_functions/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: utils/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)

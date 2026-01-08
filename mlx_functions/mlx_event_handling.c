@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 18:10:43 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/07 18:50:17 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:41:22 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static int	key_handle(int keycode, t_mlx *data)
 {
 	if (keycode == 65307)
 		end_program(data);
-    return (0);
+	return (0);
 }
 void	error(t_mlx *data)
 {
-    //free non mlx related shit here if needed
+	//free non mlx related shit here if needed
 	if (data->img.pointer)
 		mlx_destroy_image(data->mlx_ptr, data->img.pointer);
 	if (data->mlx_ptr)
@@ -61,13 +61,13 @@ void	init_mlx(t_mlx *data, int screen_x, int screen_y)
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 	{
-        //free non mlx stuff here
+		//free non mlx stuff here
 		error(data);
 	}
 	data->win = mlx_new_window(data->mlx_ptr, data->x, data->y, "~.miniRT.~");
 	if (!data->win)
 	{
-        //free non mlx stuff here
+		//free non mlx stuff here
 		error(data);
 	}
 	mlx_key_hook(data->win, key_handle, data);

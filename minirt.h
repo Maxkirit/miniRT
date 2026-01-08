@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 18:56:46 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:45:27 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ typedef struct s_image
 {
 	void	*pointer;
 	char	*pixels;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_size;
 	int		endian;
 }	t_image;
@@ -184,9 +184,13 @@ t_mat	inverse(t_mat mat);
 t_mat	scale_mtx(double x, double y, double z);
 t_mat	translate_mtx(t_tuple dest);
 t_mat	rotation_mtx(t_tuple dest_axis);
+t_mat	build_transfo(t_shape obj);
+t_mat	build_transfo_cam(t_cam cam);
 // utils
 int		equal(double a, double b);
 //mlx
 void	init_mlx(t_mlx *data, int screen_x, int screen_y);
+void	error(t_mlx *data);
+void	my_pixel_put(t_image *img, int x, int y, int color);
 
 #endif

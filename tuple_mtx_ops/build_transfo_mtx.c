@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 16:45:53 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/07 18:04:01 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:37:39 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,18 @@ t_mat	build_transfo(t_shape obj)
 		return (plane_mtx(obj));
 	else
 		return (cyl_mtx(obj));
+}
+
+t_mat	build_transfo_cam(t_cam cam)
+{
+	t_mat	rotate;
+	t_mat	translate;
+
+	rotate = rotation_mtx(cam.normal_n);
+	if (!rotate.data)
+		return (rotate);
+	translate = translate_mtx(cam.viewpoint);
+	if (!translate.data)
+		return (translate);
+	return (mat_mult(translate, rotate));
 }
