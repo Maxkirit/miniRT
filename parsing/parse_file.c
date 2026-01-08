@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 11:15:30 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/08 15:29:04 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	print_error(int	mode)
 		printf("Error\nIssue with plane configurations\n");
 	else if (mode == 7)
 		printf("Error\nIssue with cylinder configurations\n");
+	else if (mode == 8)
+		printf("Malloc failed\n");
 }
 
 int	num_args(char **args)
@@ -118,126 +120,136 @@ int	is_normal(t_tuple tup)
 	return (0);
 }
 
-int	add_ambient(char **args, t_world *world)
+int	init_shape(t_world *w)
 {
-	if (world->ambient.ratio != -1 || num_args(args) != 3)
+	w->num_shapes++;
+	w->shapes = shape_realloc(w->shapes, w->num_shapes);
+	if (w->shapes == NULL && w->num_shapes != 1)
+		return (print_error(8), -1);
+		w->shapes[w->num_shapes - 1].mat.diffuse = 0.9;
+	w->shapes[w->num_shapes - 1].mat.specular = 0.9;
+	w->shapes[w->num_shapes - 1].mat.shine = 200.0;
+	w->shapes[w->num_shapes - 1].to_world.data = NULL;
+	w->shapes[w->num_shapes - 1].from_world.data = NULL;
+	return (0);
+}
+
+int	add_ambient(char **args, t_world *w)
+{
+	if (w->ambient.ratio != -1 || num_args(args) != 3)
 		return (print_error(2), -1);
-	if (ft_atod(args[1], &(world->ambient.ratio)) == -1)
+	if (ft_atod(args[1], &(w->ambient.ratio)) == -1)
 		return (print_error(2), -1);
-	if (world->ambient.ratio > 1.0 || world->ambient.ratio < 0.0)
+	if (w->ambient.ratio > 1.0 || w->ambient.ratio < 0.0)
 		return (print_error(2), -1);
-	if (get_color(args[2], &(world->ambient.color)) == -1)
+	if (get_color(args[2], &(w->ambient.color)) == -1)
 		return (print_error(2), -1);
 	return (0);
 }
 
-int	add_camera(char **args, t_world *world)
+int	add_camera(char **args, t_world *w)
 {
-	if (world->cam.fov != -1 || num_args(args) != 4)
+	if (w->cam.fov != -1 || num_args(args) != 4)
 		return (print_error(3), -1);
-	if (get_tuple(args[1], &(world->cam.viewpoint), 1) == -1)
+	if (get_tuple(args[1], &(w->cam.viewpoint), 1) == -1)
 		return (print_error(3), -1);
-	if (get_tuple(args[2], &(world->cam.normal_n), 0) == -1 || is_normal(world->cam.normal_n) == -1)
+	if (get_tuple(args[2], &(w->cam.normal_n), 0) == -1 || is_normal(w->cam.normal_n) == -1)
 		return (print_error(3), -1);
-	world->cam.fov = ft_atoi(args[3]);
-	if (check_int_conversion(args[3], world->cam.fov) == -1 || world->cam.fov > 180 || world->cam.fov < 0)
+	w->cam.fov = ft_atoi(args[3]);
+	if (check_int_conversion(args[3], w->cam.fov) == -1 || w->cam.fov > 180 || w->cam.fov < 0)
 		return (print_error(3), -1);
+	w->cam.to_world.data = NULL;
+	w->cam.from_world.data = NULL;
 	return (0);
 }
 
-int	add_light(char **args, t_world *world)
+int	add_light(char **args, t_world *w)
 {
 	if (num_args(args) != 4)
 		return (print_error(4), -1);
-	world->num_lights++;
-	world->lights = light_realloc(world->lights, world->num_lights);
-	if (world->shapes == NULL && world->num_lights != 1)
+	w->num_lights++;
+	w->lights = light_realloc(w->lights, w->num_lights);
+	if (w->shapes == NULL && w->num_lights != 1)
 		return (print_error(4), -1);
-	if (get_tuple(args[1], &(world->lights[world->num_lights - 1].point), 1) == -1)
+	if (get_tuple(args[1], &(w->lights[w->num_lights - 1].point), 1) == -1)
 		return (print_error(4), -1);
-	if (ft_atod(args[2], &(world->lights[world->num_lights - 1].bright)) == -1 ||
-		world->lights[world->num_lights - 1].bright < 0.0 || world->lights[world->num_lights - 1].bright > 1.0)
+	if (ft_atod(args[2], &(w->lights[w->num_lights - 1].bright)) == -1 ||
+		w->lights[w->num_lights - 1].bright < 0.0 || w->lights[w->num_lights - 1].bright > 1.0)
 		return (print_error(4), -1);
-	if (get_color(args[3], &(world->lights[world->num_lights - 1].color)) == -1)
+	if (get_color(args[3], &(w->lights[w->num_lights - 1].color)) == -1)
 		return (print_error(4), -1);
 	return (0);
 }
 
-int	add_sphere(char **args, t_world *world)
+int	add_sphere(char **args, t_world *w)
 {
 	if (num_args(args) != 4)
 		return (print_error(5), -1);
-	world->num_shapes++;
-	world->shapes = shape_realloc(world->shapes, world->num_shapes);
-	if (world->shapes == NULL && world->num_shapes != 1)
+	if (init_shape(w) == -1)
+		return (-1);
+	w->shapes[w->num_shapes - 1].type = SPHERE;
+	if (get_tuple(args[1], &(w->shapes[w->num_shapes - 1].obj.sphere.centre), 1) == -1)
 		return (print_error(5), -1);
-	world->shapes[world->num_shapes - 1].type = SPHERE;
-	if (get_tuple(args[1], &(world->shapes[world->num_shapes - 1].obj.sphere.centre), 1) == -1)
+	if (ft_atod(args[2], &(w->shapes[w->num_shapes - 1].obj.sphere.radius)) == -1 || w->shapes[w->num_shapes - 1].obj.sphere.radius < 0.0)
 		return (print_error(5), -1);
-	if (ft_atod(args[2], &(world->shapes[world->num_shapes - 1].obj.sphere.radius)) == -1 || world->shapes[world->num_shapes - 1].obj.sphere.radius < 0.0)
-		return (print_error(5), -1);
-	world->shapes[world->num_shapes - 1].obj.sphere.radius /= 2.0;
-	if (get_color(args[3], &(world->shapes[world->num_shapes - 1].obj.sphere.mat.color)) == -1)
+	w->shapes[w->num_shapes - 1].obj.sphere.radius /= 2.0;
+	if (get_color(args[3], &(w->shapes[w->num_shapes - 1].mat.color)) == -1)
 		return (print_error(5), -1);
 	return (0);
 }
 
-int	add_plane(char **args, t_world *world)
+int	add_plane(char **args, t_world *w)
 {
 	if (num_args(args) != 4)
 		return (print_error(6), -1);
-	world->num_shapes++;
-	world->shapes = shape_realloc(world->shapes, world->num_shapes);
-	if (world->shapes == NULL && world->num_shapes != 1)
+	if (init_shape(w) == -1)
+		return (-1);
+	if (get_tuple(args[1], &(w->shapes[w->num_shapes - 1].obj.plane.point), 1) == -1)
 		return (print_error(6), -1);
-	if (get_tuple(args[1], &(world->shapes[world->num_shapes - 1].obj.plane.point), 1) == -1)
+	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.plane.normal_n), 0) == -1 || is_normal(w->shapes[w->num_shapes - 1].obj.plane.normal_n) == -1)
 		return (print_error(6), -1);
-	if (get_tuple(args[2], &(world->shapes[world->num_shapes - 1].obj.plane.normal_n), 0) == -1 || is_normal(world->shapes[world->num_shapes - 1].obj.plane.normal_n) == -1)
-		return (print_error(6), -1);
-	if (get_color(args[3], &(world->shapes[world->num_shapes - 1].obj.plane.mat.color)) == -1)
+	if (get_color(args[3], &(w->shapes[w->num_shapes - 1].mat.color)) == -1)
 		return (print_error(6), -1);
 	return (0);
 }
 
-int	add_cylinder(char **args, t_world *world)
+int	add_cylinder(char **args, t_world *w)
 {
 	if (num_args(args) != 6)
 		return (print_error(7), -1);
-	world->num_shapes++;
-	world->shapes = shape_realloc(world->shapes, world->num_shapes);
-	if (world->shapes == NULL && world->num_shapes != 1)
+	if (init_shape(w) == -1)
+		return (-1);
+	if (get_tuple(args[1], &(w->shapes[w->num_shapes - 1].obj.cyl.centre), 1) == -1)
 		return (print_error(7), -1);
-	if (get_tuple(args[1], &(world->shapes[world->num_shapes - 1].obj.cyl.centre), 1) == -1)
+	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.cyl.axis_n), 0) == -1 ||
+		is_normal(w->shapes[w->num_shapes - 1].obj.cyl.axis_n) == -1)
 		return (print_error(7), -1);
-	if (get_tuple(args[2], &(world->shapes[world->num_shapes - 1].obj.cyl.axis_n), 0) == -1 ||
-		is_normal(world->shapes[world->num_shapes - 1].obj.cyl.axis_n) == -1)
+	if (ft_atod(args[3], &(w->shapes[w->num_shapes - 1].obj.cyl.radius)) == -1 ||
+		w->shapes[w->num_shapes - 1].obj.cyl.radius < 0.0)
 		return (print_error(7), -1);
-	if (ft_atod(args[3], &(world->shapes[world->num_shapes - 1].obj.cyl.radius)) == -1 ||
-		world->shapes[world->num_shapes - 1].obj.cyl.radius < 0.0)
+	w->shapes[w->num_shapes - 1].obj.cyl.radius /= 2;
+	if (ft_atod(args[4], &(w->shapes[w->num_shapes - 1].obj.cyl.height)) == -1 ||
+		w->shapes[w->num_shapes - 1].obj.cyl.height < 0.0)
 		return (print_error(7), -1);
-	world->shapes[world->num_shapes - 1].obj.cyl.radius /= 2;
-	if (ft_atod(args[4], &(world->shapes[world->num_shapes - 1].obj.cyl.height)) == -1 ||
-		world->shapes[world->num_shapes - 1].obj.cyl.height < 0.0)
-		return (print_error(7), -1);
-	if (get_color(args[5], &(world->shapes[world->num_shapes - 1].obj.plane.mat.color)) == -1)
+	if (get_color(args[5], &(w->shapes[w->num_shapes - 1].mat.color)) == -1)
 		return (print_error(7), -1);
 	return (0);
 }
 
-int	process_args(char **args, t_world *world)
+int	process_args(char **args, t_world *w)
 {
 	if (ft_strcmp(args[0], "A") == 0)
-		return (add_ambient(args, world));
+		return (add_ambient(args, w));
 	else if (ft_strcmp(args[0], "C") == 0)
-		return (add_camera(args, world));
+		return (add_camera(args, w));
 	else if (ft_strcmp(args[0], "L") == 0)
-		return (add_light(args, world));
+		return (add_light(args, w));
 	else if (ft_strcmp(args[0], "sp") == 0)
-		return (add_sphere(args, world));
+		return (add_sphere(args, w));
 	else if (ft_strcmp(args[0], "pl") == 0)
-		return (add_plane(args, world));
+		return (add_plane(args, w));
 	else if (ft_strcmp(args[0], "cy") == 0)
-		return (add_cylinder(args, world));
+		return (add_cylinder(args, w));
 	else
 		return (print_error(1), -1);
 }

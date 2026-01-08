@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_event_handling.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 18:10:43 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 10:41:22 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:29:47 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
 //destroy image beforehand 
-static void	end_program(t_mlx *data)
+void	end_program(t_mlx *data)
 {
 	if (data->win)
 		mlx_destroy_window(data->mlx_ptr, data->win);

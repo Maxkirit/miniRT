@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   build_transfo_mtx.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 16:45:53 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 10:37:39 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:48:03 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-t_mat	sphere_mtx(t_shape obj)
+static t_mat	sphere_mtx(t_shape obj)
 {
 	t_mat	scale;
 	t_mat	translate;
@@ -28,7 +28,7 @@ t_mat	sphere_mtx(t_shape obj)
 	return (mat_mult(translate, scale));
 }
 
-t_mat	plane_mtx(t_shape obj)
+static t_mat	plane_mtx(t_shape obj)
 {
 	t_mat	rotate;
 	t_mat	translate;
@@ -42,7 +42,7 @@ t_mat	plane_mtx(t_shape obj)
 	return (mat_mult(translate, rotate));
 }
 
-t_mat	cyl_mtx(t_shape obj)
+static t_mat	cyl_mtx(t_shape obj)
 {
 	t_mat	scale;
 	t_mat	translate;
