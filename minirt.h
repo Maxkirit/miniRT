@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 16:34:01 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:40:45 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ t_mat	build_transfo_cam(t_cam cam);
 // parsing
 int		parse_file(char *file, t_world *world);
 // utils
+void	free_world(t_world *w);
 int		equal(double a, double b);
 double	square(double x);
 t_shape	*shape_realloc(t_shape *old, int new_size);
@@ -210,5 +211,6 @@ void	my_pixel_put(t_image *img, int x, int y, int color);
 int		rgb_color(double r, double g, double b);
 // raytracer
 t_color	run_raytracer(t_world *w, int x, int y);
+int		intersections(t_ray ray, t_world world, double *hit);
 
 #endif

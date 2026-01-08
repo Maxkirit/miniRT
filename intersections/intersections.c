@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 16:17:35 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:08:04 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-static t_intersect	no_solution(t_intersect res)
+static t_intersect	no_solution(t_intersect *res)
 {
-	res.size = 0;
-	res.table = NULL;
-	return (res);
+	res->size = 0;
+	res->table = NULL;
+	return (*res);
 }
 
 //discrimant == 0 when 1 solution so we can compress code like that
@@ -24,18 +24,27 @@ t_intersect	intersect_sphere(t_shape sphere, t_ray ray)
 {
 	t_ray		ray_obj;
 	t_intersect	res;
-	double		v_norm;
-	double		v_dot_o;
+	// double		v_norm;
+	// double		v_dot_o;
 	double		discriminant;
+	double		a;
+	double		b;
+	double		c;
+	t_tuple		sphere_to_ray;
 
 	ray_obj.dir = mat_tuple_mult(sphere.from_world, ray.dir);
 	ray_obj.origin = mat_tuple_mult(sphere.from_world, ray.origin);
-	v_norm = vec_magnitude(ray_obj.dir);
-	v_dot_o = dot_product(ray_obj.dir, ray_obj.origin);
-	discriminant = 4.0 * square(v_dot_o) - 4.0 * square(v_norm)
-			* (square(vec_magnitude(ray_obj.origin)) - 1.0);
+	sphere_to_ray = substr_tuples(ray_obj.origin, point(0, 0, 0));
+	a = dot_product(ray_obj.dir, ray_obj.dir);
+	b = 2 * dot_product(ray_obj.dir, sphere_to_ray);
+	c = dot_product(sphere_to_ray, sphere_to_ray) - 1.0;
+	discriminant = pow(b, 2.0) - 4 * a * c;
+	// v_norm = vec_magnitude(ray_obj.dir);
+	// v_dot_o = dot_product(ray_obj.dir, ray_obj.origin);
+	// discriminant = 4.0 * square(v_dot_o) - 4.0 * square(v_norm)
+	// 		* (square(vec_magnitude(ray_obj.origin)) - 1.0);
 	if (discriminant < 0)
-		return (no_solution(res));
+		return (no_solution(&res));
 	if (equal(discriminant, 0.0))
 		res.size = 1;
 	else
@@ -43,9 +52,11 @@ t_intersect	intersect_sphere(t_shape sphere, t_ray ray)
 	res.table = (double *)malloc(res.size * sizeof(double));
 	if (!res.table)
 		return (res);
-	res.table[0] = (-1 * 2.0 * v_dot_o - sqrt(discriminant)) / (2 * square(v_norm));
-	if (res.size == 2)
-		res.table[1] = (-1 * 2.0 * v_dot_o + sqrt(discriminant)) / (2 * square(v_norm));
+	res.table[0] = (b * -1 - sqrt(discriminant)) / (2.0 * a);
+	res.table[1] = (b * -1 + sqrt(discriminant)) / (2.0 * a);
+	// res.table[0] = (-1 * 2.0 * v_dot_o - sqrt(discriminant)) / (2 * square(v_norm));
+	// if (res.size == 2)
+	// 	res.table[1] = (-1 * 2.0 * v_dot_o + sqrt(discriminant)) / (2 * square(v_norm));
 	return (res);
 }
 
@@ -56,13 +67,18 @@ static int	find_min_t(double *res, int size, double *hit)
 
 	i = 0;
 	lowest_pos = 0;
-	while (i < size)
+	if (size > 0)
 	{
-		if (res[i] > 0.0 && res[i] < res[lowest_pos])
-			lowest_pos = i;
-		i++;
+		while (i < size)
+		{
+			if (res[i] > 0.0 && res[i] < res[lowest_pos])
+				lowest_pos = i;
+			i++;
+		}
+		*hit = res[lowest_pos];
 	}
-	*hit = res[lowest_pos];
+	else
+		*hit = -1;
 	return (1);
 }
 

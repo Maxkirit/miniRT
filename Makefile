@@ -1,4 +1,6 @@
 SRC = utils/math_utils.c \
+	parsing/parse_file.c \
+	parsing/parsing_utils.c \
 	tuple_mtx_ops/build_transfo_mtx.c \
 	tuple_mtx_ops/matrix_inversion.c \
 	tuple_mtx_ops/matrix_ops.c \
@@ -8,6 +10,8 @@ SRC = utils/math_utils.c \
 	mlx_functions/render_utils.c \
 	mlx_functions/mlx_event_handling.c \
 	intersections/intersections.c \
+	intersections/intersections_utils.c \
+	raytracer.c \
 	main.c
 
 NAME = minirt
@@ -33,6 +37,9 @@ $(MLX):
 	make -C mlx
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) #for main.c
+	$(CC) $(FLAGS) -Imlx -c $< -o $@
+
+$(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
 	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: tuple_mtx_ops/%.c | $(OBJ_DIR)

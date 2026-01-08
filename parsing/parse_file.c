@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 15:29:04 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:49:30 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	init_shape(t_world *w)
 	w->shapes = shape_realloc(w->shapes, w->num_shapes);
 	if (w->shapes == NULL && w->num_shapes != 1)
 		return (print_error(8), -1);
-		w->shapes[w->num_shapes - 1].mat.diffuse = 0.9;
+	w->shapes[w->num_shapes - 1].mat.diffuse = 0.9;
 	w->shapes[w->num_shapes - 1].mat.specular = 0.9;
 	w->shapes[w->num_shapes - 1].mat.shine = 200.0;
 	w->shapes[w->num_shapes - 1].to_world.data = NULL;
