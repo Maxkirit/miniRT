@@ -15,17 +15,21 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -g
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
+MLX = mlx/libmlx_Linux.a
 LINKS = $(LIBFT) -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz
 OBJ_DIR = objects
 OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) $(LINKS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
+
+$(MLX):
+	make -C mlx
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) #for main.c
 	$(CC) $(FLAGS) -Imlx -c $< -o $@
@@ -44,6 +48,7 @@ $(OBJ_DIR):
 
 clean:
 	make clean -C $(LIBFT_DIR)
+	make clean -C mlx
 	rm -rf $(OBJ_DIR)
 
 fclean: clean

@@ -6,7 +6,7 @@
 #    By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/20 09:47:13 by mturgeon          #+#    #+#              #
-#    Updated: 2025/12/10 10:36:14 by mkeerewe         ###   ########.fr        #
+#    Updated: 2026/01/08 11:35:17 by mkeerewe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,12 +84,10 @@ $(NAME): $(OFILES)
 
 clean:
 	rm -f $(OFILES) $(SRCS:.c=.d)
-	rm -f $(OFILES_BONUS) $(BONUS:.c=.d)
 
 fclean: clean 
 	rm -f $(NAME)
-	rm -f $(NAME_BONUS)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

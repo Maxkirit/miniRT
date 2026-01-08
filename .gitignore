@@ -1,2 +1,8 @@
 #vscode stuff
 .vscode
+
+*.o
+
+*.a
+
+minirt
