@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 14:32:57 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:50:58 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/src/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
 
@@ -129,9 +130,10 @@ typedef struct	s_shape
 typedef struct	s_world
 {
 	t_shape		*shapes;
-	int			num_objs;
+	int			num_shapes;
 	t_cam		cam;
 	t_light		*lights;
+	int			num_lights;
 	t_ambient	ambient;
 }	t_world;
 
@@ -155,6 +157,7 @@ typedef struct s_window
 // tuple operations
 t_tuple	vector(double x, double y, double z);
 // vector operations
+double	vec_magnitude(t_tuple vec);
 double	dot(t_tuple a, t_tuple b);
 // matrix operations
 t_mat	new_matrix(int rows, int cols);
@@ -171,5 +174,9 @@ double	cofactor(t_mat mat, int row, int col);
 t_mat	inverse(t_mat mat);
 // utils
 int		equal(double a, double b);
+t_shape	*shape_realloc(t_shape *old, int new_size);
+t_light	*light_realloc(t_light *old, int new_size);
+int		check_int_conversion(char *str, int num);
+void	free_args(char **args);
 
 #endif
