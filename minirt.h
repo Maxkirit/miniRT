@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 11:26:55 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/08 11:59:53 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,5 +197,6 @@ void	free_args(char **args);
 void	init_mlx(t_mlx *data, int screen_x, int screen_y);
 void	error(t_mlx *data);
 void	my_pixel_put(t_image *img, int x, int y, int color);
+int		rgb_color(double r, double g, double b);
 
 #endif
