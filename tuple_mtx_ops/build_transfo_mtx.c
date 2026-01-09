@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_transfo_mtx.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 16:45:53 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 13:48:03 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 11:38:35 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,16 @@ t_mat	build_transfo(t_shape obj)
 		return (cyl_mtx(obj));
 }
 
+//inverse direction vector so that the camera vector
+//describes the direction the camera looks towards
 t_mat	build_transfo_cam(t_cam cam)
 {
 	t_mat	rotate;
 	t_mat	translate;
+    t_tuple inv_cam;
 
-	rotate = rotation_mtx(cam.normal_n);
+    inv_cam = mult_vec_scalar(cam.normal_n, -1.0);
+	rotate = rotation_mtx(inv_cam);
 	if (!rotate.data)
 		return (rotate);
 	translate = translate_mtx(cam.viewpoint);
