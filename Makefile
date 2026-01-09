@@ -11,6 +11,7 @@ SRC = utils/math_utils.c \
 	mlx_functions/mlx_event_handling.c \
 	intersections/intersections.c \
 	intersections/intersections_utils.c \
+	lighting/lighting.c \
 	raytracer.c \
 	main.c
 
@@ -50,6 +51,9 @@ $(OBJ_DIR)/%.o: mlx_functions/%.c | $(OBJ_DIR)
 	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: intersections/%.c | $(OBJ_DIR)
+	$(CC) $(FLAGS) -Imlx -c $< -o $@
+
+$(OBJ_DIR)/%.o: lighting/%.c | $(OBJ_DIR)
 	$(CC) $(FLAGS) -Imlx -c $< -o $@
 
 $(OBJ_DIR)/%.o: utils/%.c | $(OBJ_DIR)

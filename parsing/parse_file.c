@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 16:49:30 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:31:13 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,25 @@ int	num_args(char **args)
 int	ft_atod(char *str, double *doub)
 {
 	char	**parts;
+	char	**check;
 	double	dec;
 
 	parts = ft_split(str, '.');
 	if (parts == NULL || num_args(parts) > 2)
-		return (-1);
+		return (free_args(parts), -1);
 	*doub = (double) ft_atoi(parts[0]);
 	if (check_int_conversion(parts[0], (int) *doub) != 0)
-		return (-1);
+		return (free_args(parts), -1);
 	if (num_args(parts) == 2)
 	{
 		dec = ((double) ft_atoi(parts[1]));
-		if (check_int_conversion(parts[1], (int) dec) != 0)
-			return (-1);
 		*doub += dec / pow(10.0, (double) ft_strlen(parts[1]));
+		check = ft_split(str, '.');
+		if (ft_strcmp(parts[1], check[1]) != 0)
+			return (free_args(parts), free_args(check), -1);
+		free_args(check);
 	}
-	return (0);
+	return (free_args(parts), 0);
 }
 
 int	get_color(char *str, t_color *color)
@@ -71,23 +74,23 @@ int	get_color(char *str, t_color *color)
 
 	parts = ft_split(str, ',');
 	if (parts == NULL || num_args(parts) != 3)
-		return (-1);
+		return (free_args(parts), -1);
 	color->r = ft_atoi(parts[0]);
 	if (check_int_conversion(parts[0], (int) color->r) != 0 ||
 		color->r > 255 || color->r < 0)
-		return (-1);
+		return (free_args(parts), -1);
 	color->r = color->r / 255;
 	color->g = ft_atoi(parts[1]);
 	if (check_int_conversion(parts[1], (int) color->g) != 0 ||
 		color->g > 255 || color->g < 0)
-		return (-1);
+		return (free_args(parts), -1);
 	color->g = color->g / 255;
 	color->b = ft_atoi(parts[2]);
 	if (check_int_conversion(parts[2], (int) color->b) != 0 ||
 		color->b > 255 || color->b < 0)
-		return (-1);
+		return (free_args(parts), -1);
 	color->b = color->b / 255;
-	return (0);
+	return (free_args(parts), 0);
 }
 
 int	get_tuple(char *str, t_tuple *tup, int pt)
@@ -96,15 +99,15 @@ int	get_tuple(char *str, t_tuple *tup, int pt)
 
 	parts = ft_split(str, ',');
 	if (parts == NULL || num_args(parts) != 3)
-		return (-1);
+		return (free_args(parts), -1);
 	if (ft_atod(parts[0], &(tup->x)) == -1)
-		return (-1);
+		return (free_args(parts), -1);
 	if (ft_atod(parts[1], &(tup->y)) == -1)
-		return (-1);
+		return (free_args(parts), -1);
 	if (ft_atod(parts[2], &(tup->z)) == -1)
-		return (-1);
+		return (free_args(parts), -1);
 	tup->pt = (double) pt;
-	return (0);
+	return (free_args(parts), 0);
 }
 
 int	is_normal(t_tuple tup)
@@ -178,6 +181,9 @@ int	add_light(char **args, t_world *w)
 		return (print_error(4), -1);
 	if (get_color(args[3], &(w->lights[w->num_lights - 1].color)) == -1)
 		return (print_error(4), -1);
+	w->lights[w->num_lights - 1].color.r *= w->lights[w->num_lights - 1].bright;
+	w->lights[w->num_lights - 1].color.g *= w->lights[w->num_lights - 1].bright;
+	w->lights[w->num_lights - 1].color.b *= w->lights[w->num_lights - 1].bright;
 	return (0);
 }
 
@@ -265,7 +271,7 @@ int	check_file_type(char *file)
 		return (print_error(0), free_args(parts), -1);
 	if (ft_strcmp(parts[1], "rt") != 0)
 		return (free_args(parts), print_error(0), -1);
-	return (0);
+	return (free_args(parts), 0);
 }
 
 int	parse_file(char *file, t_world *world)
@@ -299,6 +305,13 @@ int	parse_file(char *file, t_world *world)
 	}
 	if (world->cam.fov == -1)
 		return (print_error(3), -1);
+	if (world->ambient.ratio == -1)
+	{
+		world->ambient.ratio = 0;
+		world->ambient.color.r = 0;
+		world->ambient.color.g = 0;
+		world->ambient.color.b = 0;
+	}
 	return (0);
 }
 

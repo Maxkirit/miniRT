@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:24:39 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 16:48:02 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:01:50 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	init_world(t_world *w)
 	w->shapes = NULL;
 	w->ambient.ratio = -1;
 	w->cam.fov = -1;
+	w->cam.to_world.data = NULL;
+	w->cam.from_world.data = NULL;
 }
 
 void	free_world(t_world *w)
@@ -100,6 +102,7 @@ int	main(int argc, char *argv[])
 	int		i;
 	int		j;
 	t_color	color;
+	int		c;
 
 	i = 0;
 	if (argc != 2)
@@ -117,7 +120,8 @@ int	main(int argc, char *argv[])
 		while (j < mlx.y)
 		{
 			color = run_raytracer(&w, i, j);
-			my_pixel_put(&mlx.img, i, j, rgb_color(color.r, color.g, color.b));
+			c = rgb_color(color.r, color.g, color.b);
+			my_pixel_put(&mlx.img, i, j, c);
 			j++;
 		}
 		i++;

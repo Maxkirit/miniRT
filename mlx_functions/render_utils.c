@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 18:03:31 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 11:59:39 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/09 15:32:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,20 @@ void	my_pixel_put(t_image *img, int x, int y, int color)
 // If value > 1, capped at 1. If value < 0, floor at 0
 int	rgb_color(double r, double g, double b)
 {
-    int round_r;
-    int round_g;
-    int round_b;
+	int	round_r;
+	int	round_g;
+	int	round_b;
+	int	ret;
 
-    if (r < 0.0)
-        r = 0.0;
-    if (r > 1.0)
-        r = 1.0;
-    if (g < 0.0)
-        g = 0.0;
-    if (g > 1.0)
-        g = 1.0;
-    if (b < 0.0)
-        b = 0.0;
-    if (b > 1.0)
-        b = 1.0;
-    round_r = (int)(r + 0.5) * 255;
-    round_g = (int)(g + 0.5) * 255;
-    round_b = (int)(b + 0.5) * 255;
-	return (round_r << 16 | round_g << 8 | round_b);
+	ret = 0;
+	round_r = (int)(r * 255 + 0.5);
+	round_r = (int) fminf(255.0f, fmaxf(0.0f, (float) round_r));
+	round_g = (int)(g * 255 + 0.5);
+	round_g = (int) fminf(255.0f, fmaxf(0.0f, (float) round_g));
+	round_b = (int)(b * 255 + 0.5);
+	round_b = (int) fminf(255.0f, fmaxf(0.0f, (float) round_b));
+	ret = (round_r << 16) | (round_g << 8) | round_b;
+	return (ret);
 }
 
 //mlx_new_img each time new render needed

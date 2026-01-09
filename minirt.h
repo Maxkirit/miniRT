@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/09 10:24:42 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:25:46 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,9 @@ typedef struct s_intersect
 // tuple operations
 t_tuple	point(double x, double y, double z);
 t_tuple	vector(double x, double y, double z);
+t_tuple	add_tuples(t_tuple a, t_tuple b);
 t_tuple	substr_tuples(t_tuple a, t_tuple b);
+t_tuple	neg_tuples(t_tuple a);
 // vector operations
 double	dot_product(t_tuple a, t_tuple b);
 t_tuple	mult_vec_scalar(t_tuple vec, double scal);
@@ -186,6 +188,7 @@ t_mat	mat_mult(t_mat a, t_mat b);
 t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup);
 int		mat_equal(t_mat a, t_mat b);
 t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup);
+t_mat	transpose(t_mat mat);
 t_mat	identity(void);
 double	determinant(t_mat mat);
 t_mat	submatrix(t_mat mat, int row, int col);
@@ -219,5 +222,6 @@ int		rgb_color(double r, double g, double b);
 // raytracer
 t_color	run_raytracer(t_world *w, int x, int y);
 int		intersections(t_ray ray, t_world world, t_intersection *hit);
+t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt);
 
 #endif

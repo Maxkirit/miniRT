@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/09 11:17:32 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 14:32:39 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,11 @@ int	intersections(t_ray ray, t_world world, t_intersection *hit)
 	t_intersection	*solutions;
 	int				sol_size;
 	t_intersect 	inter;
-	t_ray			ray_world;
 	int				i;
-	//create an array of t.
-	//transform ray from camera to world and from world to object
+
 	//for each shape, call intersect_shape which return int array with between 0 and n solutions
 	//realloc t array and add results
 	//find smallest positive t in array
-	ray_world.dir = vec_normalise(mat_tuple_mult(world.cam.to_world, ray.dir));
-	ray_world.origin = mat_tuple_mult(world.cam.to_world, ray.origin);
 	inter.size = 0;
 	inter.table	= NULL;
 	i = 0;
@@ -95,7 +91,7 @@ int	intersections(t_ray ray, t_world world, t_intersection *hit)
 	{
 		solutions = NULL;
 		if (world.shapes[i].type == SPHERE)
-			sol_size = intersect_sphere(&(world.shapes[i]), ray_world, &solutions);
+			sol_size = intersect_sphere(&(world.shapes[i]), ray, &solutions);
 		// if (world.shapes[i].type == PLANE)
 		// 	solutions = intersect_plane(world.shapes[i], ray_world);
 		// if (world.shapes[i].type == CYLINDER)
