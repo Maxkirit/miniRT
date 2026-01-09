@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/09 17:31:13 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:40:37 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	ft_atod(char *str, double *doub)
 		dec = ((double) ft_atoi(parts[1]));
 		*doub += dec / pow(10.0, (double) ft_strlen(parts[1]));
 		check = ft_split(str, '.');
+		if (check == NULL)
+			return (free_args(parts), -1);
 		if (ft_strcmp(parts[1], check[1]) != 0)
 			return (free_args(parts), free_args(check), -1);
 		free_args(check);
