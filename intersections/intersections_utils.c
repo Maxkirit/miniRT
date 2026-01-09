@@ -3,38 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   intersections_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:37:41 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 16:07:51 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/09 10:38:57 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-double	*res_realloc(double *res, int size, t_intersect sol)
+t_intersection	*inter_realloc(t_intersection *old, int old_size, t_intersection *sol, int num_sol)
 {
-	double	*temp;
-	int		i;
+	int				i;
+	t_intersection	*new;
 
-	if (!res)
-	{
-		temp = (double *)malloc(sol.size * sizeof(double));
-		if (!temp)
-			return (NULL);
-	}
-	else
-	{
-		temp = (double *)malloc((size + sol.size) * sizeof(double));
-		if (!temp)
-			return (NULL);
-		ft_memmove((void *)temp, (void *)sol.table, sol.size * sizeof(double));
-	}
 	i = 0;
-	while (i < sol.size)
+	new = (t_intersection *) malloc((old_size + num_sol) * sizeof(t_intersection));
+	if (!new)
+		return (NULL);
+	if (old_size > 0)
+		ft_memmove(new, old, old_size * sizeof(t_intersection));
+	while (i < num_sol)
 	{
-		temp[size + i] = sol.table[i];
+		new[old_size + i] = sol[i];
 		i++;
 	}
-	return (temp);
+	free(old);
+	return (new);
 }
+
+// double	*res_realloc(double *res, int size, t_intersect sol)
+// {
+// 	double	*temp;
+// 	int		i;
+
+// 	if (!res)
+// 	{
+// 		temp = (double *)malloc(sol.size * sizeof(double));
+// 		if (!temp)
+// 			return (NULL);
+// 	}
+// 	else
+// 	{
+// 		temp = (double *)malloc((size + sol.size) * sizeof(double));
+// 		if (!temp)
+// 			return (NULL);
+// 		ft_memmove((void *)temp, (void *)sol.table, sol.size * sizeof(double));
+// 	}
+// 	i = 0;
+// 	while (i < sol.size)
+// 	{
+// 		temp[size + i] = sol.table[i];
+// 		i++;
+// 	}
+// 	return (temp);
+// }

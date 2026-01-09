@@ -22,13 +22,14 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX = mlx/libmlx_Linux.a
 LINKS = $(LIBFT) -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz
+LINKS_MAC = $(LIBFT) -L/opt/X11/lib -lX11 -lXext -lmlx_Darwin -framework OpenGL -framework AppKit -lm
 OBJ_DIR = objects
 OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) $(LINKS) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) $(LINKS_MAC) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)

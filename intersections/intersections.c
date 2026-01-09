@@ -6,119 +6,111 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 18:08:04 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 11:17:32 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-static t_intersect	no_solution(t_intersect *res)
-{
-	res->size = 0;
-	res->table = NULL;
-	return (*res);
-}
-
 //discrimant == 0 when 1 solution so we can compress code like that
-t_intersect	intersect_sphere(t_shape sphere, t_ray ray)
+int	intersect_sphere(t_shape *sphere, t_ray ray, t_intersection **res)
 {
-	t_ray		ray_obj;
-	t_intersect	res;
-	// double		v_norm;
-	// double		v_dot_o;
-	double		discriminant;
-	double		a;
-	double		b;
-	double		c;
-	t_tuple		sphere_to_ray;
+	t_ray			ray_obj;
+	t_tuple			sphere_to_ray;
+	double			a;
+	double			b;
+	double			c;
+	double			discriminant;
+	int				num;
 
-	ray_obj.dir = mat_tuple_mult(sphere.from_world, ray.dir);
-	ray_obj.origin = mat_tuple_mult(sphere.from_world, ray.origin);
+	ray_obj.dir = mat_tuple_mult(sphere->from_world, ray.dir);
+	ray_obj.origin = mat_tuple_mult(sphere->from_world, ray.origin);
 	sphere_to_ray = substr_tuples(ray_obj.origin, point(0, 0, 0));
 	a = dot_product(ray_obj.dir, ray_obj.dir);
 	b = 2 * dot_product(ray_obj.dir, sphere_to_ray);
 	c = dot_product(sphere_to_ray, sphere_to_ray) - 1.0;
 	discriminant = pow(b, 2.0) - 4 * a * c;
-	// v_norm = vec_magnitude(ray_obj.dir);
-	// v_dot_o = dot_product(ray_obj.dir, ray_obj.origin);
-	// discriminant = 4.0 * square(v_dot_o) - 4.0 * square(v_norm)
-	// 		* (square(vec_magnitude(ray_obj.origin)) - 1.0);
 	if (discriminant < 0)
-		return (no_solution(&res));
+		return (0);
 	if (equal(discriminant, 0.0))
-		res.size = 1;
+		num = 1;
 	else
-		res.size = 2;
-	res.table = (double *)malloc(res.size * sizeof(double));
-	if (!res.table)
-		return (res);
-	res.table[0] = (b * -1 - sqrt(discriminant)) / (2.0 * a);
-	res.table[1] = (b * -1 + sqrt(discriminant)) / (2.0 * a);
-	// res.table[0] = (-1 * 2.0 * v_dot_o - sqrt(discriminant)) / (2 * square(v_norm));
-	// if (res.size == 2)
-	// 	res.table[1] = (-1 * 2.0 * v_dot_o + sqrt(discriminant)) / (2 * square(v_norm));
-	return (res);
+		num = 2;
+	*res = (t_intersection *) malloc(num * sizeof(t_intersection));
+	if (!(*res))
+		return (-1);
+	(*res)[0].shape = sphere;
+	(*res)[0].t = (double) ((b * -1) - sqrt(discriminant)) / (2.0 * a);
+	if (num == 2)
+	{
+		(*res)[1].shape = sphere;
+		(*res)[1].t = (double) ((b * -1) + sqrt(discriminant)) / (2.0 * a);
+	}
+	return (num);
 }
 
-static int	find_min_t(double *res, int size, double *hit)
+static int	find_min_t(t_intersect *res, int size, t_intersection *hit)
 {
 	int	i;
-	int	lowest_pos;
+	int	lowest_t;
 
 	i = 0;
-	lowest_pos = 0;
-	if (size > 0)
+	lowest_t = -1;
+	while (i < size)
 	{
-		while (i < size)
+		if (res->table[i].t > 0.0 && (res->table[i].t < lowest_t || lowest_t == -1))
 		{
-			if (res[i] > 0.0 && res[i] < res[lowest_pos])
-				lowest_pos = i;
-			i++;
+			lowest_t = res->table[i].t ;
+			*hit = res->table[i];
 		}
-		*hit = res[lowest_pos];
+		i++;
 	}
-	else
-		*hit = -1;
+	if (lowest_t == -1)
+		hit->shape = NULL;
 	return (1);
 }
 
 // Iterates over all objects of the world to check intersections
 // *hit is result t passed by reference
 // Returns -1 on error, 1 on success
-int	intersections(t_ray ray, t_world world, double *hit)
+int	intersections(t_ray ray, t_world world, t_intersection *hit)
 {
-	t_intersect solutions;
-	t_ray		ray_world;
-	double      *res;
-	int         i;
-	int			size;
+	t_intersection	*solutions;
+	int				sol_size;
+	t_intersect 	inter;
+	t_ray			ray_world;
+	int				i;
 	//create an array of t.
 	//transform ray from camera to world and from world to object
 	//for each shape, call intersect_shape which return int array with between 0 and n solutions
 	//realloc t array and add results
 	//find smallest positive t in array
-	size = 0;
-	ray_world.dir = mat_tuple_mult(world.cam.to_world, ray.dir);
+	ray_world.dir = vec_normalise(mat_tuple_mult(world.cam.to_world, ray.dir));
 	ray_world.origin = mat_tuple_mult(world.cam.to_world, ray.origin);
+	inter.size = 0;
+	inter.table	= NULL;
 	i = 0;
+	sol_size = 0;
 	while (i < world.num_shapes)
 	{
+		solutions = NULL;
 		if (world.shapes[i].type == SPHERE)
-			solutions = intersect_sphere(world.shapes[i], ray_world);
+			sol_size = intersect_sphere(&(world.shapes[i]), ray_world, &solutions);
 		// if (world.shapes[i].type == PLANE)
 		// 	solutions = intersect_plane(world.shapes[i], ray_world);
 		// if (world.shapes[i].type == CYLINDER)
 		// 	solutions = intersect_cyl(world.shapes[i], ray_world);
-		if (!solutions.table && solutions.size != 0)
+		if (sol_size == -1)
 			return (-1);
-		if (solutions.size > 0)
+		if (sol_size > 0)
 		{
-			res = res_realloc(res, size, solutions);
-			if (!res)
+			inter.table = inter_realloc(inter.table, inter.size, solutions, sol_size);
+			if (inter.table == NULL)
 				return (-1);
+			inter.size += sol_size;
+			free(solutions);
 		}
-		size += solutions.size;
 		i++;
 	}
-	return (find_min_t(res, size, hit));
+	return (find_min_t(&inter, inter.size, hit));
 }

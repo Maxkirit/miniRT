@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:18:59 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 17:03:17 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 10:23:47 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_ray	ray_for_pixel(t_world *w, double px, double py)
 t_color	run_raytracer(t_world *w, int x, int y)
 {
 	t_ray	cam_ray;
-	double	hit;
+	t_intersection	hit;
 	t_color	color;
 
 	cam_ray = ray_for_pixel(w, (double) x , (double) y); // in camera-space
@@ -35,7 +35,7 @@ t_color	run_raytracer(t_world *w, int x, int y)
 		free_world(w);
 		exit(1);
 	}
-	if (equal(hit, -1.0))
+	if (hit.shape == NULL)
 	{
 		color.r = 0;
 		color.g = 0;

@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/08 16:40:45 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 10:24:42 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,16 @@ typedef struct s_mlx
 	int		y;
 }	t_mlx;
 
+typedef struct	s_intersection
+{
+	t_shape	*shape;
+	double	t;
+}	t_intersection;
+
 typedef struct s_intersect
 {
-	double	*table;
-	int		size;
+	t_intersection	*table;
+	int				size;
 }	t_intersect;
 
 // tuple operations
@@ -203,6 +209,7 @@ t_light	*light_realloc(t_light *old, int new_size);
 int		check_int_conversion(char *str, int num);
 void	free_args(char **args);
 double	*res_realloc(double *res, int size, t_intersect sol);
+t_intersection	*inter_realloc(t_intersection *old, int old_size, t_intersection *sol, int num_sol);
 //mlx
 void	init_mlx(t_mlx *data, int screen_x, int screen_y);
 void	error(t_mlx *data);
@@ -211,6 +218,6 @@ void	my_pixel_put(t_image *img, int x, int y, int color);
 int		rgb_color(double r, double g, double b);
 // raytracer
 t_color	run_raytracer(t_world *w, int x, int y);
-int		intersections(t_ray ray, t_world world, double *hit);
+int		intersections(t_ray ray, t_world world, t_intersection *hit);
 
 #endif

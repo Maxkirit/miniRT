@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 10:02:13 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 18:55:07 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/09 07:49:17 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,10 @@ t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup)
 t_mat	identity(void)
 {
 	t_mat	res;
-	int		i;
 
 	res = new_matrix(4, 4);
 	if (res.data == NULL)
 		return (res);
-	i = 0;
     set_data(res, 0, 0, 1.0);
     set_data(res, 1, 1, 1.0);
     set_data(res, 2, 2, 1.0);
