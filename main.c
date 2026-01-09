@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:24:39 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/08 16:48:02 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/09 12:04:16 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ double	compute_pixel_step(t_cam *cam, int hor, int ver)
 	double	aspect;
 
 	half_view = tan(cam->fov / 2.0);
-	aspect = (double) hor / ver;
+	aspect = (double)hor / (double)ver;
 	if (aspect > 1 || equal(aspect, 1.0))
 	{
 		cam->half_width = half_view;

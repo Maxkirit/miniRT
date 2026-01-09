@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 08:43:46 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 18:04:21 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/09 12:14:28 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ double	dot_product(t_tuple a, t_tuple b)
 
 t_tuple	cross_product(t_tuple a, t_tuple b)
 {
-	return (vector(a.y * b.z - a.z * b.y,
-			a.z * b.x - a.x * b.z,
-			a.x * b.y - a.y * b.x));
+	return (vector(-(a.y * b.z - a.z * b.y),
+			-(a.z * b.x - a.x * b.z),
+			-(a.x * b.y - a.y * b.x)));
 }
