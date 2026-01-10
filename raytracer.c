@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:18:59 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/09 16:26:33 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:13:56 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_color	run_raytracer(t_world *w, int x, int y)
 	}
 	else
 	{
-		color = lighting(w, hit.shape, neg_tuples(cam_ray.dir), add_tuples(point(0, 0, 0), mult_vec_scalar(cam_ray.dir, hit.t)));
+		color = lighting(w, hit.shape, neg_tuples(cam_ray.dir), add_tuples(cam_ray.origin, mult_vec_scalar(cam_ray.dir, hit.t)));
 		// color.r = hit.shape->mat.color.r;
 		// color.g = hit.shape->mat.color.g;
 		// color.b = hit.shape->mat.color.b;

@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/09 16:49:53 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:31:17 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,14 @@ t_color	set_ambient(t_world *w, t_shape *shape)
 	return (color);
 }
 
-void	set_diffuse(t_shape *shape, double light_dot_normal, t_color *color)
+// add light color to diffuse formula ??
+void	set_diffuse(t_shape *shape, t_light light, double light_dot_normal, t_color *color)
 {
 	if (!(light_dot_normal < 0.0))
 	{
-		color->r += shape->mat.diffuse * shape->mat.color.r * light_dot_normal;
-		color->g += shape->mat.diffuse * shape->mat.color.g * light_dot_normal;
-		color->b += shape->mat.diffuse * shape->mat.color.b * light_dot_normal;
+		color->r += shape->mat.diffuse * shape->mat.color.r * light_dot_normal * light.color.r;
+		color->g += shape->mat.diffuse * shape->mat.color.g * light_dot_normal * light.color.g;
+		color->b += shape->mat.diffuse * shape->mat.color.b * light_dot_normal * light.color.b;
 	}
 }
 
@@ -108,7 +109,7 @@ t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt)
 			light_dot_normal = dot_product(light_v, surface_n);
 			if (!(light_dot_normal < 0))
 			{
-				set_diffuse(shape, light_dot_normal, &color);
+				set_diffuse(shape, w->lights[i], light_dot_normal, &color);
 				reflect_v = reflect(neg_tuples(light_v), surface_n);
 				reflect_dot_cam = dot_product(reflect_v, cam_v);
 				set_specular(w->lights[i], shape, reflect_dot_cam, &color);
