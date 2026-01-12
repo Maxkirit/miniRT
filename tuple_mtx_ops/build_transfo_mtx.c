@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 16:45:53 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/09 11:38:35 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/12 09:31:10 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ t_mat	build_transfo_cam(t_cam cam)
 {
 	t_mat	rotate;
 	t_mat	translate;
-    t_tuple inv_cam;
 
-    inv_cam = mult_vec_scalar(cam.normal_n, -1.0);
-	rotate = rotation_mtx(inv_cam);
+	rotate = rotation_mtx(cam.normal_n);
 	if (!rotate.data)
 		return (rotate);
 	translate = translate_mtx(cam.viewpoint);
