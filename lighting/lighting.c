@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 17:17:40 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:23:00 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,19 @@ void	set_specular(t_light light, t_shape *shape, double reflect_dot_cam, t_color
 int	is_in_shadow(t_world *w, t_tuple pt, t_light light)
 {
 	t_ray			shadow_ray;
+    double          dist;
 	t_intersection	hit;
 
 	shadow_ray.origin = pt;
-	shadow_ray.dir = vec_normalise(substr_tuples(light.point, pt));
+	shadow_ray.dir = substr_tuples(light.point, pt);
+    dist = vec_magnitude(shadow_ray.dir);
+    shadow_ray.dir = vec_normalise(shadow_ray.dir);
 	if (intersections(shadow_ray, *w, &hit) == -1)
 	{
 		free_world(w);
 		exit(1);
 	}
-	if (hit.shape == NULL)
+	if (hit.shape == NULL || hit.t > dist)
 		return (0);
 	return (1);
 }
