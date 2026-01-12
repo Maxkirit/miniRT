@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/09 17:40:37 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:49:51 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ int	add_plane(char **args, t_world *w)
 		return (print_error(6), -1);
 	if (init_shape(w) == -1)
 		return (-1);
+	w->shapes[w->num_shapes - 1].type = PLANE;
 	if (get_tuple(args[1], &(w->shapes[w->num_shapes - 1].obj.plane.point), 1) == -1)
 		return (print_error(6), -1);
 	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.plane.normal_n), 0) == -1 || is_normal(w->shapes[w->num_shapes - 1].obj.plane.normal_n) == -1)
@@ -227,6 +228,7 @@ int	add_cylinder(char **args, t_world *w)
 		return (print_error(7), -1);
 	if (init_shape(w) == -1)
 		return (-1);
+	w->shapes[w->num_shapes - 1].type = CYLINDER;
 	if (get_tuple(args[1], &(w->shapes[w->num_shapes - 1].obj.cyl.centre), 1) == -1)
 		return (print_error(7), -1);
 	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.cyl.axis_n), 0) == -1 ||

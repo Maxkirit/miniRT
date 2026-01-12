@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 10:47:24 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:41:56 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_tuple	surface_n_cylinder(t_shape *cyl, t_tuple pt)
 	t_tuple	w_normal;
 
 	obj_pt = mat_tuple_mult(cyl->from_world, pt);
-	obj_normal = vector(pt.x, 0, pt.y);
+	obj_normal = vector(obj_pt.x, 0, obj_pt.z);
 	w_normal = mat_tuple_mult(cyl->to_world, obj_normal);
 	return (vec_normalise(w_normal));
 }
@@ -63,7 +63,6 @@ t_color	set_ambient(t_world *w, t_shape *shape)
 	return (color);
 }
 
-// add light color to diffuse formula ??
 void	set_diffuse(t_shape *shape, t_light light, double light_dot_normal, t_color *color)
 {
 	if (!(light_dot_normal < 0.0))
@@ -117,8 +116,10 @@ t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt)
  	i = 0;
 	if (shape->type == SPHERE)
 		surface_n = surface_n_shere(shape, pt);
-	else // handle surface normal calculation for other shapes
+	else if (shape->type == PLANE)
 		surface_n = surface_n_plane(shape);
+	else
+		surface_n = surface_n_cylinder(shape, pt);
 	if (dot_product(surface_n, cam_v) < 0.0)
 		surface_n = neg_tuples(surface_n);
 	color = set_ambient(w, shape);

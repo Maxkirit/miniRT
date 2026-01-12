@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 10:39:17 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:57:18 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,44 @@ int	intersect_plane(t_shape *plane, t_ray ray, t_intersection **res)
 	return (1);
 }
 
-int	intersect_cylinder(t_shape *sphere, t_ray ray, t_intersection **res)
+int	handle_cyl_height(t_ray ray, t_intersection **res)
+{
+	double	y;
+	int		i;
+	int		ret;
+
+	i = 0;
+	ret = 2;
+	y = ray.origin.y + (*res)[i].t * ray.dir.y;
+	i++;
+	if (y < -0.5 || y > 0.5)
+	{
+		(*res)[0].t = (*res)[1].t;
+		i--;
+		ret--;
+	}
+	y = ray.origin.y + (*res)[i].t * ray.dir.y;
+	if (y < -0.5 || y > 0.5)
+	{
+		free(*res);
+		return (0);
+	}
+	return (ret);
+}
+
+int	intersect_cyl(t_shape *cyl, t_ray ray, t_intersection **res)
 {
 	double	a;
 	double	b;
 	double	c;
 	double	discriminant;
 
+	ray.dir = mat_tuple_mult(cyl->from_world, ray.dir);
+	ray.origin = mat_tuple_mult(cyl->from_world, ray.origin);
 	a = pow(ray.dir.x, 2.0) + pow(ray.dir.z, 2.0);
 	if (equal(a, 0.0))
 		return (0);
-	b = 2.0 * ray.origin.x * ray.dir.x + 2 * ray.origin.z * ray.dir.z;
+	b = 2.0 * ray.origin.x * ray.dir.x + 2.0 * ray.origin.z * ray.dir.z;
 	c = pow(ray.origin.x, 2.0) + pow(ray.origin.z, 2.0) - 1.0;
 	discriminant = pow(b, 2.0) - 4 * a * c;
 	if (discriminant < 0.0)
@@ -81,11 +108,11 @@ int	intersect_cylinder(t_shape *sphere, t_ray ray, t_intersection **res)
 	*res = (t_intersection *) malloc(2 * sizeof(t_intersection));
 	if (!(*res))
 		return (-1);
-	(*res)[0].shape = sphere;
+	(*res)[0].shape = cyl;
 	(*res)[0].t = (double) ((b * -1) - sqrt(discriminant)) / (2.0 * a);
-	(*res)[1].shape = sphere;
+	(*res)[1].shape = cyl;
 	(*res)[1].t = (double) ((b * -1) + sqrt(discriminant)) / (2.0 * a);
-	return (2);
+	return (handle_cyl_height(ray, res));
 }
 
 static int	find_min_t(t_intersect *res, int size, t_intersection *hit)
@@ -106,6 +133,7 @@ static int	find_min_t(t_intersect *res, int size, t_intersection *hit)
 	}
 	if (lowest_t == -1)
 		hit->shape = NULL;
+	free(res->table);
 	return (1);
 }
 
@@ -131,10 +159,10 @@ int	intersections(t_ray ray, t_world world, t_intersection *hit)
 		solutions = NULL;
 		if (world.shapes[i].type == SPHERE)
 			sol_size = intersect_sphere(&(world.shapes[i]), ray, &solutions);
-		if (world.shapes[i].type == PLANE)
+		else if (world.shapes[i].type == PLANE)
 			sol_size = intersect_plane(&(world.shapes[i]), ray, &solutions);
-		// if (world.shapes[i].type == CYLINDER)
-		// 	solutions = intersect_cyl(world.shapes[i], ray_world);
+		else if (world.shapes[i].type == CYLINDER)
+			sol_size = intersect_cyl(&(world.shapes[i]), ray, &solutions);
 		if (sol_size == -1)
 			return (-1);
 		if (sol_size > 0)

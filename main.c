@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:24:39 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 12:08:21 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:21:54 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	main(int argc, char *argv[])
 		i++;
 	}
 	mlx_put_image_to_window(mlx.mlx_ptr, mlx.win, mlx.img.pointer, 0, 0);
+	printf("Done with raycasting\n"); // for testing purposes
 	mlx_destroy_image(mlx.mlx_ptr, mlx.img.pointer);
 	mlx_loop(mlx.mlx_ptr);
 	end_program(&mlx);
