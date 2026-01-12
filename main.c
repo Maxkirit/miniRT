@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:24:39 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 10:46:55 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:08:21 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ double	compute_pixel_step(t_cam *cam, int hor, int ver)
 	double	half_view;
 	double	aspect;
 
-	half_view = tan(cam->fov / 2.0);
+	half_view = tan(((cam->fov * 3.14159)/180.0) / 2.0);
 	aspect = (double)hor / (double)ver;
 	if (aspect > 1 || equal(aspect, 1.0))
 	{
