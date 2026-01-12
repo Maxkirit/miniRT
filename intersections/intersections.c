@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 17:31:05 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:16:12 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	intersect_plane(t_shape *plane, t_ray ray, t_intersection **res)
 {
 	ray.dir = mat_tuple_mult(plane->from_world, ray.dir);
 	ray.origin = mat_tuple_mult(plane->from_world, ray.origin);
-	if (fabs(ray.dir.y) < EPSILON)
+	if (fabs(ray.dir.z) < EPSILON)
 		return (0);
 	*res = (t_intersection *) malloc(1 * sizeof(t_intersection));
 	if (!(*res))
