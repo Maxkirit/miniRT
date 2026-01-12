@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 15:57:18 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:53:32 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,44 @@ int	handle_cyl_height(t_ray ray, t_intersection **res)
 	y = ray.origin.y + (*res)[i].t * ray.dir.y;
 	if (y < -0.5 || y > 0.5)
 	{
-		free(*res);
-		return (0);
+		if (i == 0)
+			return (free(*res), 0);
+		ret--;
 	}
 	return (ret);
+}
+
+int	check_cap(t_ray ray, double t)
+{
+	double	x;
+	double	z;
+
+	x = ray.origin.x + t * ray.dir.x;
+	z = ray.origin.z + t * ray.dir.z;
+	return (!((pow(x, 2.0) + pow(z, 2.0)) > 1));
+}
+
+int	intersect_caps(t_shape *cyl, t_ray ray, t_intersection **res)
+{
+	int	i;
+
+	i = 0;
+	if (equal(ray.dir.y, 0.0))
+		return (0);
+	*res = (t_intersection *) malloc(2 * sizeof(t_intersection));
+	if (!(*res))
+		return (-1);
+	(*res)[i].shape = cyl;
+	(*res)[i].t = (0.5 - ray.origin.y) / ray.dir.y;
+	i++;
+	if (!check_cap(ray, (*res)[0].t))
+		i--;
+	(*res)[i].shape = cyl;
+	(*res)[i].t = (-0.5 - ray.origin.y) / ray.dir.y;
+	i++;
+	if (!check_cap(ray, (*res)[0].t))
+		return (1);
+	return (2);
 }
 
 int	intersect_cyl(t_shape *cyl, t_ray ray, t_intersection **res)
@@ -103,7 +137,7 @@ int	intersect_cyl(t_shape *cyl, t_ray ray, t_intersection **res)
 	b = 2.0 * ray.origin.x * ray.dir.x + 2.0 * ray.origin.z * ray.dir.z;
 	c = pow(ray.origin.x, 2.0) + pow(ray.origin.z, 2.0) - 1.0;
 	discriminant = pow(b, 2.0) - 4 * a * c;
-	if (discriminant < 0.0)
+	if (discriminant < 0.0) // check if only one t is possible
 		return (0);
 	*res = (t_intersection *) malloc(2 * sizeof(t_intersection));
 	if (!(*res))
@@ -137,6 +171,21 @@ static int	find_min_t(t_intersect *res, int size, t_intersection *hit)
 	return (1);
 }
 
+int	add_solution(int sol_size, t_intersect 	*inter, t_intersection **solutions)
+{
+	if (sol_size == -1)
+		return (free(inter->table), free(*solutions), -1);
+	if (sol_size > 0)
+	{
+		inter->table = inter_realloc(inter->table, inter->size, *solutions, sol_size);
+		if (inter->table == NULL)
+			return (free(inter->table), free(*solutions), -1);
+		inter->size += sol_size;
+		free(*solutions);
+	}
+	return (0);
+}
+
 // Iterates over all objects of the world to check intersections
 // *hit is result t passed by reference
 // Returns -1 on error, 1 on success
@@ -162,17 +211,15 @@ int	intersections(t_ray ray, t_world world, t_intersection *hit)
 		else if (world.shapes[i].type == PLANE)
 			sol_size = intersect_plane(&(world.shapes[i]), ray, &solutions);
 		else if (world.shapes[i].type == CYLINDER)
-			sol_size = intersect_cyl(&(world.shapes[i]), ray, &solutions);
-		if (sol_size == -1)
-			return (-1);
-		if (sol_size > 0)
 		{
-			inter.table = inter_realloc(inter.table, inter.size, solutions, sol_size);
-			if (inter.table == NULL)
+			sol_size = intersect_cyl(&(world.shapes[i]), ray, &solutions);
+			if (add_solution(sol_size, &inter, &solutions) == -1)
 				return (-1);
-			inter.size += sol_size;
-			free(solutions);
+			solutions = NULL;
+			sol_size = intersect_caps(&(world.shapes[i]), ray, &solutions);
 		}
+		if (add_solution(sol_size, &inter, &solutions) == -1)
+			return (-1);
 		i++;
 	}
 	return (find_min_t(&inter, inter.size, hit));

@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 15:41:56 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:17:40 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,19 @@ t_tuple	surface_n_plane(t_shape *plane)
 
 t_tuple	surface_n_cylinder(t_shape *cyl, t_tuple pt)
 {
+	double	dist;
 	t_tuple	obj_pt;
 	t_tuple	obj_normal;
 	t_tuple	w_normal;
 
 	obj_pt = mat_tuple_mult(cyl->from_world, pt);
-	obj_normal = vector(obj_pt.x, 0, obj_pt.z);
+	dist = pow(obj_pt.x, 2.0) + pow(obj_pt.z, 2.0);
+	if (dist < 1 && !(obj_pt.y < 0.5 - EPSILON))
+		obj_normal = vector(0, 1, 0);
+	else if (dist < 1 && !(obj_pt.y > -0.5 + EPSILON))
+		obj_normal = vector(0, -1, 0);
+	else
+		obj_normal = vector(obj_pt.x, 0, obj_pt.z);
 	w_normal = mat_tuple_mult(cyl->to_world, obj_normal);
 	return (vec_normalise(w_normal));
 }
