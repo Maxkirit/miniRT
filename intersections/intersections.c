@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 15:57:18 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:32:18 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	handle_cyl_height(t_ray ray, t_intersection **res)
 	return (ret);
 }
 
+// in object space, cyl is vertical along y axis
+// radius == 1, height == 1
 int	intersect_cyl(t_shape *cyl, t_ray ray, t_intersection **res)
 {
 	double	a;

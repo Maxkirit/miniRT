@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_transfo_mtx.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 16:45:53 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 15:38:41 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:11:29 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ static t_mat	plane_mtx(t_shape obj)
 	return (mat_mult(translate, rotate));
 }
 
+// apply translation of -h/2 on y before scale rotate translate
+// to account for centered around orign.
 static t_mat	cyl_mtx(t_shape obj)
 {
 	t_mat	scale;
 	t_mat	translate;
 	t_mat	rotate;
-	// t_mat	rotate1;
+	t_mat	rotate1;
 	double	radius;
 	double	height;
 
@@ -59,15 +61,15 @@ static t_mat	cyl_mtx(t_shape obj)
 	translate = translate_mtx(obj.obj.cyl.centre);
 	if (!translate.data)
 		return (translate);
+	rotate1 = rotation_mtx(vector(0.0, 1.0, 0.0));
+	if (!rotate.data)
+		return (rotate);
 	rotate = rotation_mtx(obj.obj.cyl.axis_n);
 	if (!rotate.data)
 		return (rotate);
-	// rotate1 = rotation_mtx(vector(0.0, 1.0, 0.0));
-	// if (!rotate1.data)
-	// 	return (rotate1);
-	// rotate = mat_mult(rotate1, rotate);
-	// if (!rotate.data)
-	// 	return (rotate);
+	rotate = mat_mult(rotate, rotate1);
+	if (!rotate.data)
+		return (rotate);
 	scale = mat_mult(rotate, scale);
 	if (!scale.data)
 		return (scale);
