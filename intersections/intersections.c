@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 18:53:00 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 20:44:54 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,8 @@ int	intersect_caps(t_shape *cyl, t_ray ray, t_intersection **res)
 		return (-1);
 	(*res)[i].shape = cyl;
 	(*res)[i].t = (0.5 - ray.origin.y) / ray.dir.y;
-	i++;
-	if (!check_cap(ray, (*res)[i].t))
-		i--;
+	if (check_cap(ray, (*res)[i].t))
+		i++;
 	(*res)[i].shape = cyl;
 	(*res)[i].t = (-0.5 - ray.origin.y) / ray.dir.y;
 	if (!check_cap(ray, (*res)[i].t))
@@ -227,6 +226,7 @@ int	intersections(t_ray ray, t_world world, t_intersection *hit)
 			sol_size = intersect_caps(&(world.shapes[i]), ray, &solutions);
 		}
 		if (add_solution(sol_size, &inter, &solutions) == -1)
+		//free solutions!!!
 			return (-1);
 		i++;
 	}
