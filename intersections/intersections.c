@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 18:16:12 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:53:00 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	check_cap(t_ray ray, double t)
 
 	x = ray.origin.x + t * ray.dir.x;
 	z = ray.origin.z + t * ray.dir.z;
-	return (!((pow(x, 2.0) + pow(z, 2.0)) > 1));
+	return ((pow(x, 2.0) + pow(z, 2.0) < 1) || equal(pow(x, 2.0) + pow(z, 2.0), 1.0));
 }
 
 int	intersect_caps(t_shape *cyl, t_ray ray, t_intersection **res)
@@ -104,6 +104,8 @@ int	intersect_caps(t_shape *cyl, t_ray ray, t_intersection **res)
 	int	i;
 
 	i = 0;
+	ray.dir = mat_tuple_mult(cyl->from_world, ray.dir);
+	ray.origin = mat_tuple_mult(cyl->from_world, ray.origin);
 	if (equal(ray.dir.y, 0.0))
 		return (0);
 	*res = (t_intersection *) malloc(2 * sizeof(t_intersection));
@@ -112,13 +114,17 @@ int	intersect_caps(t_shape *cyl, t_ray ray, t_intersection **res)
 	(*res)[i].shape = cyl;
 	(*res)[i].t = (0.5 - ray.origin.y) / ray.dir.y;
 	i++;
-	if (!check_cap(ray, (*res)[0].t))
+	if (!check_cap(ray, (*res)[i].t))
 		i--;
 	(*res)[i].shape = cyl;
 	(*res)[i].t = (-0.5 - ray.origin.y) / ray.dir.y;
-	i++;
-	if (!check_cap(ray, (*res)[0].t))
+	if (!check_cap(ray, (*res)[i].t))
+	{
+		(*res)[i].shape = NULL;
+		if (i == 0)
+			return (0);
 		return (1);
+	}
 	return (2);
 }
 
