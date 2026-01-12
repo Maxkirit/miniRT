@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_inversion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 11:26:47 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 18:04:06 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:23:02 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,9 @@ t_mat	inverse(t_mat mat)
 	if (res.data == NULL)
 		return (res);
 	det = determinant(mat);
-	if (det == 0)
+	if (equal(det, 0.0))
 	{
+		// printf("Unable to inverse matrix\n");
 		free(res.data);
 		res.data = NULL;
 		return (res);

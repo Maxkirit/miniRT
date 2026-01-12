@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/10 11:31:17 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:47:24 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,26 @@ t_tuple	surface_n_shere(t_shape *sphere, t_tuple pt)
 	obj_normal = substr_tuples(obj_pt, point(0, 0, 0));
 	w_normal = mat_tuple_mult(transpose(sphere->from_world), obj_normal);
 	w_normal.pt = 0;
+	return (vec_normalise(w_normal));
+}
+
+t_tuple	surface_n_plane(t_shape *plane)
+{
+	t_tuple	world_n;
+
+	world_n = mat_tuple_mult(plane->to_world, vector(0, 0, 1));
+	return (vec_normalise(world_n));
+}
+
+t_tuple	surface_n_cylinder(t_shape *cyl, t_tuple pt)
+{
+	t_tuple	obj_pt;
+	t_tuple	obj_normal;
+	t_tuple	w_normal;
+
+	obj_pt = mat_tuple_mult(cyl->from_world, pt);
+	obj_normal = vector(pt.x, 0, pt.y);
+	w_normal = mat_tuple_mult(cyl->to_world, obj_normal);
 	return (vec_normalise(w_normal));
 }
 
@@ -95,9 +115,10 @@ t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt)
 	double	reflect_dot_cam;
 
  	i = 0;
-	// if (shape->type == SPHERE)
-	surface_n = surface_n_shere(shape, pt);
-	// handle surface normal calculation for other shapes
+	if (shape->type == SPHERE)
+		surface_n = surface_n_shere(shape, pt);
+	else // handle surface normal calculation for other shapes
+		surface_n = surface_n_plane(shape);
 	if (dot_product(surface_n, cam_v) < 0.0)
 		surface_n = neg_tuples(surface_n);
 	color = set_ambient(w, shape);
