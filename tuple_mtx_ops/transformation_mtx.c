@@ -61,37 +61,37 @@ static t_mat	build_rot_mtx(t_tuple x, t_tuple y, t_tuple z)
 	if (!res.data)
 		return (res);
 	set_data(res, 0, 0, x.x);
-	set_data(res, 0, 1, y.x);
-	set_data(res, 0, 2, z.x);
 	set_data(res, 1, 0, x.y);
-	set_data(res, 1, 1, y.y);
-	set_data(res, 1, 2, z.y);
 	set_data(res, 2, 0, x.z);
+
+	set_data(res, 0, 1, y.x);
+	set_data(res, 1, 1, y.y);
 	set_data(res, 2, 1, y.z);
+
+	set_data(res, 0, 2, z.x);
+	set_data(res, 1, 2, z.y);
 	set_data(res, 2, 2, z.z);
+
 	set_data(res, 3, 3, 1.0);
 	return (res);
 }
 
 // dest_axis is the direction of the new up.
-// base up is (0, 1, 0): cylinder axis or normal vect to plane
-// a = (0, 0, 1) is another vector to compute first axis of new base
 // we are building a new orthonormal base for the rotation matrix
 // if (!res.data)--> malloc error
 t_mat	rotation_mtx(t_tuple dest_axis)
 {
-	t_tuple	y_new;
 	t_tuple	x_new;
+	t_tuple	y_new;
 	t_tuple	z_new;
-	t_tuple	a;
-
-	y_new = dest_axis;
-    if (equal(dest_axis.z, 1.0) || equal(dest_axis.z, -1.0))
-        a = vector(1.0, 0.0, 0.0);
-    else
-	    a = vector(0.0, 0.0, 1.0);
-	x_new = cross_product(a, y_new);
-	x_new = mult_vec_scalar(x_new, 1 / vec_magnitude(x_new));
-	z_new = cross_product(y_new, x_new);
+	t_tuple	helper;
+	
+	z_new = vec_normalise(dest_axis);
+	if (fabs((dot_product(dest_axis, vector(0.0, 1.0, 0.0)))) < 0.999999)
+		helper = vector(0.0, 1.0, 0.0);
+	else
+		helper = vector(0.0, 0.0, -1.0);
+	x_new = vec_normalise(cross_product(helper, z_new));
+	y_new = vec_normalise(cross_product(z_new, x_new));
 	return (build_rot_mtx(x_new, y_new, z_new));
 }

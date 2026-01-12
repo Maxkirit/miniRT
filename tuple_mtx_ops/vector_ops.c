@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 08:43:46 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 18:04:21 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/09 14:28:59 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ double	dot_product(t_tuple a, t_tuple b)
 	return (a.x * b.x + a.y * b.y + a.z * b.z + a.pt * b.pt);
 }
 
+//normal cross product for right hand !
 t_tuple	cross_product(t_tuple a, t_tuple b)
 {
 	return (vector(a.y * b.z - a.z * b.y,

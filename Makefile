@@ -30,7 +30,7 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) $(LINKS_MAC) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) $(LINKS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
