@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 19:07:41 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/12 19:55:02 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,52 @@ int	num_args(char **args)
 	return (i);
 }
 
+// most conservative systems guarantee precision up to 15 decimal places
+// --> error if 16 or more digits in mantissa
+static int	check_mantissa(char *doub)
+{
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	len = ft_strlen(doub);
+	while (i < len)
+	{
+		if (doub[i] >= '0' && doub[i] <= '9')
+			i++;
+		else
+			return (-1);
+	}
+	if (i > 15)
+		return (-1);
+	return (1);
+}
+
 int	ft_atod(char *str, double *doub)
 {
 	char	**parts;
 	double	dec;
+	int		i;
 
+	i = 0;
 	parts = ft_split(str, '.');
 	if (parts == NULL || num_args(parts) > 2)
 		return (free_args(parts), -1);
-	*doub = (double) ft_atoi(parts[0]);
-	if (check_int_conversion(parts[0], (int) *doub) != 0)
+	if (parts[0][0] == '-' || parts[0][0] == '+')
+		i++;
+	*doub = (double) ft_atoi(&(parts[0][i]));
+	if (check_int_conversion(&(parts[0][i]), (int) *doub) != 0)
 		return (free_args(parts), -1);
 	if (num_args(parts) == 2)
 	{
+		if (check_mantissa(parts[1]) == -1)
+			return (free_args(parts), -1);
 		dec = ((double) ft_atoi(parts[1]));
 		*doub += dec / pow(10.0, (double) ft_strlen(parts[1]));
 		// check if second atoi successful
 	}
+	if (parts[0][0] == '-' || parts[0][0] == '+')
+		*doub *= -1;
 	return (free_args(parts), 0);
 }
 
