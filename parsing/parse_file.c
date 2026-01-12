@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 19:55:02 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/12 20:07:34 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int	add_light(char **args, t_world *w)
 		return (print_error(4), -1);
 	w->num_lights++;
 	w->lights = light_realloc(w->lights, w->num_lights);
-	if (w->shapes == NULL && w->num_lights != 1)
+	if (w->lights == NULL /*&& w->num_lights != 1*/)
 		return (print_error(4), -1);
 	if (get_tuple(args[1], &(w->lights[w->num_lights - 1].point), 1) == -1)
 		return (print_error(4), -1);
