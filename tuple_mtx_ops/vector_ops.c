@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 08:43:46 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/09 14:28:59 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:58:53 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_tuple	mult_vec_scalar(t_tuple vec, double scal)
 
 double	vec_magnitude(t_tuple vec)
 {
-	double sum;
+	double	sum;
 
 	sum = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.pt * vec.pt;
 	return (sqrt(sum));

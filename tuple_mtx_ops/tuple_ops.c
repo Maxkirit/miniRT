@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 09:59:08 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/07 18:04:17 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:50:15 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_tuple	add_tuples(t_tuple a, t_tuple b)
 	res.pt = a.pt + b.pt;
 	return (res);
 }
-
 
 //returns a - b
 t_tuple	substr_tuples(t_tuple a, t_tuple b)

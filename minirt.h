@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 14:20:54 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:03:16 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,16 +194,18 @@ t_mat	new_matrix(int rows, int cols);
 void	destroy_matrix(t_mat mat);
 double	get_data(t_mat mat, int i, int j);
 void	set_data(t_mat mat, int i, int j, double input);
+t_tuple	mat_get_col(t_mat mat, int col);
+t_tuple	mat_get_row(t_mat mat, int row);
 t_mat	mat_mult(t_mat a, t_mat b);
 t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup);
 int		mat_equal(t_mat a, t_mat b);
 t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup);
 t_mat	transpose(t_mat mat);
 t_mat	identity(void);
+double	cofactor(t_mat mat, int row, int col);
 double	determinant(t_mat mat);
 t_mat	submatrix(t_mat mat, int row, int col);
-double	minor(t_mat mat, int row, int col);
-double	cofactor(t_mat mat, int row, int col);
+double	determinant(t_mat mat);
 t_mat	inverse(t_mat mat);
 //transformation matrices
 t_mat	scale_mtx(double x, double y, double z);
@@ -211,8 +213,24 @@ t_mat	translate_mtx(t_tuple dest);
 t_mat	rotation_mtx(t_tuple dest_axis);
 t_mat	build_transfo(t_shape obj);
 t_mat	build_transfo_cam(t_cam cam);
+t_mat	cyl_mtx(t_shape obj);
 // parsing
 int		parse_file(char *file, t_world *world);
+int	add_camera(char **args, t_world *w);
+int	add_light(char **args, t_world *w);
+int	add_sphere(char **args, t_world *w);
+int	add_plane(char **args, t_world *w);
+int	add_cylinder(char **args, t_world *w);
+int	get_color(char *str, t_color *color);
+int	get_tuple(char *str, t_tuple *tup, int pt);
+int	add_ambient(char **args, t_world *w);
+int	ft_atod(char *str, double *doub);
+void	print_error(int	mode);
+int	num_args(char **args);
+int	is_zero(t_tuple tup);
+int	init_shape(t_world *w);
+int	check_file_type(char *file);
+void	print_error(int	mode);
 // utils
 void	free_world(t_world *w);
 int		equal(double a, double b);
@@ -220,6 +238,7 @@ t_shape	*shape_realloc(t_shape *old, int new_size);
 t_light	*light_realloc(t_light *old, int new_size);
 int		check_int_conversion(char *str, int num);
 void	free_args(char **args);
+int		init_program(t_world *w, t_data *mlx, char **argv);
 //mlx
 void	init_mlx(t_data *data, int screen_x, int screen_y);
 void	error(t_data *data);

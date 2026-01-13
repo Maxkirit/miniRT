@@ -63,15 +63,12 @@ static t_mat	build_rot_mtx(t_tuple x, t_tuple y, t_tuple z)
 	set_data(res, 0, 0, x.x);
 	set_data(res, 1, 0, x.y);
 	set_data(res, 2, 0, x.z);
-
 	set_data(res, 0, 1, y.x);
 	set_data(res, 1, 1, y.y);
 	set_data(res, 2, 1, y.z);
-
 	set_data(res, 0, 2, z.x);
 	set_data(res, 1, 2, z.y);
 	set_data(res, 2, 2, z.z);
-
 	set_data(res, 3, 3, 1.0);
 	return (res);
 }
@@ -85,7 +82,7 @@ t_mat	rotation_mtx(t_tuple dest_axis)
 	t_tuple	y_new;
 	t_tuple	z_new;
 	t_tuple	helper;
-	
+
 	z_new = vec_normalise(dest_axis);
 	if (fabs((dot_product(dest_axis, vector(0.0, 1.0, 0.0)))) < 0.999999)
 		helper = vector(0.0, 1.0, 0.0);

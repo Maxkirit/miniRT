@@ -3,82 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 10:02:13 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/09 07:49:17 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:58:10 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
-
-// if malloc fails handle in calling function
-t_mat	new_matrix(int rows, int cols)
-{
-	t_mat	mat;
-
-	mat.data = (double *)ft_calloc(rows * cols, sizeof(double));
-	mat.rows = rows;
-	mat.cols = cols;
-	return (mat);
-}
-
-void	destroy_matrix(t_mat mat)
-{
-	free(mat.data);
-}
-
-double	get_data(t_mat mat, int i, int j)
-{
-	return (mat.data[mat.cols * i + j]);
-}
-
-void	set_data(t_mat mat, int i, int j, double input)
-{
-	mat.data[mat.cols * i + j] = input;
-}
-
-int	mat_equal(t_mat a, t_mat b)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < a.rows)
-	{
-		j = 0;
-		while (j < a.cols)
-		{
-			if (equal(get_data(a, i, j), get_data(b, i, j)) != 1)
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-t_tuple	mat_get_col(t_mat mat, int col)
-{
-	t_tuple	ret;
-
-	ret.x = get_data(mat, 0, col);
-	ret.y = get_data(mat, 1, col);
-	ret.z = get_data(mat, 2, col);
-	ret.pt = get_data(mat, 3, col);
-	return (ret);
-}
-
-t_tuple	mat_get_row(t_mat mat, int row)
-{
-	t_tuple	ret;
-
-	ret.x = get_data(mat, row, 0);
-	ret.y = get_data(mat, row, 1);
-	ret.z = get_data(mat, row, 2);
-	ret.pt = get_data(mat, row, 3);
-	return (ret);
-}
 
 // multiply two 4x4 matrices
 // a is left and b is right
@@ -98,7 +30,8 @@ t_mat	mat_mult(t_mat a, t_mat b)
 		j = 0;
 		while (j < res.cols)
 		{
-			set_data(res, i, j, dot_product(mat_get_row(a, i), mat_get_col(b, j)));
+			set_data(res, i, j, dot_product(mat_get_row(a, i),
+					mat_get_col(b, j)));
 			j++;
 		}
 		i++;
@@ -125,10 +58,10 @@ t_mat	identity(void)
 	res = new_matrix(4, 4);
 	if (res.data == NULL)
 		return (res);
-    set_data(res, 0, 0, 1.0);
-    set_data(res, 1, 1, 1.0);
-    set_data(res, 2, 2, 1.0);
-    set_data(res, 3, 3, 1.0);
+	set_data(res, 0, 0, 1.0);
+	set_data(res, 1, 1, 1.0);
+	set_data(res, 2, 2, 1.0);
+	set_data(res, 3, 3, 1.0);
 	return (res);
 }
 
