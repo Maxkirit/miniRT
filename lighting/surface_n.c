@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 18:02:14 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 18:09:01 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:33:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_tuple	set_surface_n(t_shape *shape, t_tuple cam_v, t_tuple pt)
 		surface_n = surface_n_plane(shape);
 	else
 		surface_n = surface_n_cylinder(shape, pt);
-	if (dot_product(surface_n, cam_v) < 0.0)
+	if (dot(surface_n, cam_v) < 0.0)
 		surface_n = neg_tuples(surface_n);
 	return (surface_n);
 }

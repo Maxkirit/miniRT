@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 10:02:13 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 17:58:10 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:33:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_mat	mat_mult(t_mat a, t_mat b)
 		j = 0;
 		while (j < res.cols)
 		{
-			set_data(res, i, j, dot_product(mat_get_row(a, i),
+			set_data(res, i, j, dot(mat_get_row(a, i),
 					mat_get_col(b, j)));
 			j++;
 		}
@@ -43,10 +43,10 @@ t_tuple	mat_tuple_mult(t_mat mat, t_tuple tup)
 {
 	t_tuple	res;
 
-	res.x = dot_product(mat_get_row(mat, 0), tup);
-	res.y = dot_product(mat_get_row(mat, 1), tup);
-	res.z = dot_product(mat_get_row(mat, 2), tup);
-	res.pt = dot_product(mat_get_row(mat, 3), tup);
+	res.x = dot(mat_get_row(mat, 0), tup);
+	res.y = dot(mat_get_row(mat, 1), tup);
+	res.z = dot(mat_get_row(mat, 2), tup);
+	res.pt = dot(mat_get_row(mat, 3), tup);
 	return (res);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 08:43:46 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 17:58:53 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:33:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_tuple	vec_normalise(t_tuple vec)
 	return (res);
 }
 
-double	dot_product(t_tuple a, t_tuple b)
+double	dot(t_tuple a, t_tuple b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z + a.pt * b.pt);
 }

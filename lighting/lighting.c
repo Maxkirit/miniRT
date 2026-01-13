@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 19:23:38 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:33:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt)
 					mult_vec_scalar(surface_n, EPSILON)), w->lights[i]))
 		{
 			light_v = vec_normalise(substr_tuples(w->lights[i].point, pt));
-			light_dot_normal = dot_product(light_v, surface_n);
+			light_dot_normal = dot(light_v, surface_n);
 			if (!(light_dot_normal < 0))
 			{
 				set_diffuse(shape, w->lights[i], light_dot_normal, &color);

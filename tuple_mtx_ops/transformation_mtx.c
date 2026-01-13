@@ -84,7 +84,7 @@ t_mat	rotation_mtx(t_tuple dest_axis)
 	t_tuple	helper;
 
 	z_new = vec_normalise(dest_axis);
-	if (fabs((dot_product(dest_axis, vector(0.0, 1.0, 0.0)))) < 0.999999)
+	if (fabs((dot(dest_axis, vector(0.0, 1.0, 0.0)))) < 0.999999)
 		helper = vector(0.0, 1.0, 0.0);
 	else
 		helper = vector(0.0, 0.0, -1.0);
