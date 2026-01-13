@@ -6,70 +6,15 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 16:24:27 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:23:38 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-t_tuple	surface_n_shere(t_shape *sphere, t_tuple pt)
-{
-	t_tuple	obj_pt;
-	t_tuple	obj_normal;
-	t_mat	transp;
-	t_tuple	w_normal;
-
-	obj_pt = mat_tuple_mult(sphere->from_world, pt);
-	obj_normal = substr_tuples(obj_pt, point(0, 0, 0));
-	transp = transpose(sphere->from_world);
-	w_normal = mat_tuple_mult(transp, obj_normal);
-	w_normal.pt = 0;
-	free(transp.data);
-	return (vec_normalise(w_normal));
-}
-
-t_tuple	surface_n_plane(t_shape *plane)
-{
-	t_tuple	world_n;
-
-	world_n = mat_tuple_mult(plane->to_world, vector(0, 0, 1));
-	return (vec_normalise(world_n));
-}
-
-t_tuple	surface_n_cylinder(t_shape *cyl, t_tuple pt)
-{
-	double	dist;
-	t_tuple	obj_pt;
-	t_tuple	obj_normal;
-	t_mat	transp;
-	t_tuple	w_normal;
-
-	obj_pt = mat_tuple_mult(cyl->from_world, pt);
-	dist = pow(obj_pt.x, 2.0) + pow(obj_pt.z, 2.0);
-	if (dist < 1 && obj_pt.y >= (0.5 - EPSILON))
-		obj_normal = vector(0, 1, 0);
-	else if (dist < 1 && obj_pt.y <= (-0.5 + EPSILON))
-		obj_normal = vector(0, -1, 0);
-	else
-		obj_normal = vector(obj_pt.x, 0, obj_pt.z);
-	transp = transpose(cyl->from_world);
-	w_normal = mat_tuple_mult(transp, obj_normal);
-	w_normal.pt = 0;
-	free(transp.data);
-	return (vec_normalise(w_normal));
-}
-
-t_tuple	reflect(t_tuple in, t_tuple normal_n)
-{
-	t_tuple	temp;
-
-	temp = mult_vec_scalar(mult_vec_scalar(normal_n, 2), dot_product(in, normal_n));
-	return (substr_tuples(in, temp));
-}
-
 t_color	set_ambient(t_world *w, t_shape *shape)
 {
-	t_color color;
+	t_color	color;
 
 	color.r = w->ambient.ratio * w->ambient.color.r * shape->mat.color.r;
 	color.g = w->ambient.ratio * w->ambient.color.g * shape->mat.color.g;
@@ -77,17 +22,22 @@ t_color	set_ambient(t_world *w, t_shape *shape)
 	return (color);
 }
 
-void	set_diffuse(t_shape *shape, t_light light, double light_dot_normal, t_color *color)
+void	set_diffuse(t_shape *shape, t_light light, double light_dot_normal,
+			t_color *color)
 {
 	if (!(light_dot_normal < 0.0))
 	{
-		color->r += shape->mat.diffuse * shape->mat.color.r * light_dot_normal * light.color.r;
-		color->g += shape->mat.diffuse * shape->mat.color.g * light_dot_normal * light.color.g;
-		color->b += shape->mat.diffuse * shape->mat.color.b * light_dot_normal * light.color.b;
+		color->r += shape->mat.diffuse * shape->mat.color.r
+			* light_dot_normal * light.color.r;
+		color->g += shape->mat.diffuse * shape->mat.color.g
+			* light_dot_normal * light.color.g;
+		color->b += shape->mat.diffuse * shape->mat.color.b
+			* light_dot_normal * light.color.b;
 	}
 }
 
-void	set_specular(t_light light, t_shape *shape, double reflect_dot_cam, t_color *color)
+void	set_specular(t_light light, t_shape *shape, double reflect_dot_cam,
+			t_color *color)
 {
 	double	factor;
 
@@ -100,23 +50,6 @@ void	set_specular(t_light light, t_shape *shape, double reflect_dot_cam, t_color
 	}
 }
 
-int	is_in_shadow(t_world *w, t_tuple pt, t_light light)
-{
-	t_ray			shadow_ray;
-    double          dist;
-	t_intersection	hit;
-
-	shadow_ray.origin = pt;
-	shadow_ray.dir = substr_tuples(light.point, pt);
-    dist = vec_magnitude(shadow_ray.dir);
-	hit.shape = NULL;
-    shadow_ray.dir = vec_normalise(shadow_ray.dir);
-	intersections(shadow_ray, *w, &hit);
-	if (hit.shape == NULL || hit.t > dist)
-		return (0);
-	return (1);
-}
-
 t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt)
 {
 	int		i;
@@ -124,34 +57,24 @@ t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt)
 	t_tuple	surface_n;
 	t_tuple	light_v;
 	double	light_dot_normal;
-	t_tuple	reflect_v;
-	double	reflect_dot_cam;
 
- 	i = 0;
-	if (shape->type == SPHERE)
-		surface_n = surface_n_shere(shape, pt);
-	else if (shape->type == PLANE)
-		surface_n = surface_n_plane(shape);
-	else
-		surface_n = surface_n_cylinder(shape, pt);
-	if (dot_product(surface_n, cam_v) < 0.0)
-		surface_n = neg_tuples(surface_n);
+	i = -1;
+	surface_n = set_surface_n(shape, cam_v, pt);
 	color = set_ambient(w, shape);
-	while (i < w->num_lights)
+	while (++i < w->num_lights)
 	{
-		if (!is_in_shadow(w, add_tuples(pt, mult_vec_scalar(surface_n, EPSILON)), w->lights[i]))
+		if (!is_in_shadow(w, add_tuples(pt,
+					mult_vec_scalar(surface_n, EPSILON)), w->lights[i]))
 		{
 			light_v = vec_normalise(substr_tuples(w->lights[i].point, pt));
 			light_dot_normal = dot_product(light_v, surface_n);
 			if (!(light_dot_normal < 0))
 			{
 				set_diffuse(shape, w->lights[i], light_dot_normal, &color);
-				reflect_v = reflect(neg_tuples(light_v), surface_n);
-				reflect_dot_cam = dot_product(reflect_v, cam_v);
-				set_specular(w->lights[i], shape, reflect_dot_cam, &color);
+				set_specular(w->lights[i], shape,
+					ref_dot_cam(light_v, surface_n, cam_v), &color);
 			}
 		}
-		i++;
 	}
 	return (color);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 19:03:16 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:25:38 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,11 +247,20 @@ void	my_pixel_put(t_image *img, int x, int y, int color);
 int		rgb_color(double r, double g, double b);
 // raytracer
 t_color	run_raytracer(t_world *w, int x, int y);
+// intersections
 void	intersections(t_ray ray, t_world world, t_intersection *hit);
+int		intersect_sphere(t_shape *sphere, t_ray ray, t_intersection res[2]);
+int		intersect_plane(t_shape *plane, t_ray ray, t_intersection res[2]);
+int		intersect_cyl(t_shape *cyl, t_ray ray, t_intersection res[2]);
+int		intersect_caps(t_shape *cyl, t_ray ray, t_intersection res[2]);
+// lighting
 t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt);
 void	check_light_spacing (t_world *w);
-//geometry
 t_tuple	surface_n_shere(t_shape *sphere, t_tuple pt);
 t_tuple	surface_n_plane(t_shape *plane);
 t_tuple	surface_n_cylinder(t_shape *cyl, t_tuple pt);
+t_tuple	set_surface_n(t_shape *shape, t_tuple cam_v, t_tuple pt);
+double	ref_dot_cam(t_tuple light_v, t_tuple surface_n, t_tuple cam_v);
+int		is_in_shadow(t_world *w, t_tuple pt, t_light light);
+t_tuple	reflect(t_tuple in, t_tuple normal_n);
 #endif

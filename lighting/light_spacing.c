@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_spacing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 10:45:50 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 11:40:48 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:12:17 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ void	add_epsilon(t_tuple *light, t_tuple normal)
 }
 
 //light can intersect multiple objects but incidence computed on first one
-void	check_light_spacing (t_world *w)
+void	check_light_spacing(t_world *w)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	t_tuple	light;
-	
+
 	i = 0;
-	j = 0;
 	while (i < w->num_lights)
 	{
 		j = 0;
@@ -74,7 +73,7 @@ void	check_light_spacing (t_world *w)
 			if (is_in_sphere(light, w->shapes[j]))
 				return (add_epsilon(&w->lights[i].point,
 						surface_n_shere(&w->shapes[j], light)));
- 			else if (is_in_plane(light, w->shapes[j]))
+			else if (is_in_plane(light, w->shapes[j]))
 				return (add_epsilon(&w->lights[i].point,
 						surface_n_plane(&w->shapes[j])));
 			else if (is_in_cyl(light, w->shapes[j]))

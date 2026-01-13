@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_event_handling.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 18:10:43 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 17:10:36 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:15:25 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static int	key_handle(int keycode, t_data *data)
 		end_program(data);
 	return (0);
 }
+
 void	error(t_data *data)
 {
-	//free non mlx related shit here if needed
 	if (data->img.pointer)
 		mlx_destroy_image(data->mlx_ptr, data->img.pointer);
 	if (data->mlx_ptr)
@@ -58,7 +58,7 @@ void	error(t_data *data)
 
 void	init_mlx(t_data *data, int screen_x, int screen_y)
 {
-	data->x= screen_x;
+	data->x = screen_x;
 	data->y = screen_y;
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
