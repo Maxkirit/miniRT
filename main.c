@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:24:39 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 11:18:00 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 13:15:32 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	init_mlx_infra(t_mlx *mlx)
 {
-	init_mlx(mlx, 1600, 900);
-	mlx->img.pointer = mlx_new_image(mlx->mlx_ptr, 1600, 900);
+	init_mlx(mlx, SCREEN_W, SCREEN_H);
+	mlx->img.pointer = mlx_new_image(mlx->mlx_ptr, SCREEN_W, SCREEN_H);
 	if (!mlx->img.pointer)
 		error(mlx);
 	mlx->img.pixels = mlx_get_data_addr(mlx->img.pointer, &mlx->img.bpp, &mlx->img.line_size, &mlx->img.endian);
