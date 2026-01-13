@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_event_handling.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 18:10:43 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 13:26:52 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:10:36 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,10 @@ void	init_mlx(t_data *data, int screen_x, int screen_y)
 	data->y = screen_y;
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
-	{
-		//free non mlx stuff here
 		error(data);
-	}
 	data->win = mlx_new_window(data->mlx_ptr, data->x, data->y, "~.miniRT.~");
 	if (!data->win)
-	{
-		//free non mlx stuff here
 		error(data);
-	}
 	mlx_key_hook(data->win, key_handle, data);
 	mlx_hook(data->win, 17, 0, close_with_x, data);
 }

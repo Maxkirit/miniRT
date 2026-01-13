@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 16:06:40 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:27:33 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,18 +135,12 @@ int	get_tuple(char *str, t_tuple *tup, int pt)
 	return (free_args(parts), 0);
 }
 
-// int	is_normal(t_tuple tup)
-// {
-// 	if (tup.x > 1.0 || tup.x < -1.0)
-// 		return (-1);
-// 	else if (tup.y > 1.0 || tup.y < -1.0)
-// 		return (-1);
-// 	else if (tup.z > 1.0 || tup.z < -1.0)
-// 		return (-1);
-// 	if (vec_magnitude(tup) != 1)
-// 		return (-1);
-// 	return (0);
-// }
+int	is_zero(t_tuple tup)
+{
+    if (equal(tup.x, 0.0) && equal(tup.y, 0.0) && equal(tup.z, 0.0))
+        return (1);
+    return (0);
+}
 
 int	init_shape(t_world *w)
 {
@@ -181,7 +175,7 @@ int	add_camera(char **args, t_world *w)
 		return (print_error(3), -1);
 	if (get_tuple(args[1], &(w->cam.viewpoint), 1) == -1)
 		return (print_error(3), -1);
-	if (get_tuple(args[2], &(w->cam.normal_n), 0) == -1)
+	if (get_tuple(args[2], &(w->cam.normal_n), 0) == -1 || is_zero(w->cam.normal_n))
 		return (print_error(3), -1);
 	w->cam.normal_n = vec_normalise(w->cam.normal_n);
 	w->cam.fov = ft_atoi(args[3]);
@@ -239,7 +233,7 @@ int	add_plane(char **args, t_world *w)
 	w->shapes[w->num_shapes - 1].type = PLANE;
 	if (get_tuple(args[1], &(w->shapes[w->num_shapes - 1].obj.plane.point), 1) == -1)
 		return (print_error(6), -1);
-	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.plane.normal_n), 0) == -1)
+	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.plane.normal_n), 0) == -1 || is_zero(w->shapes[w->num_shapes - 1].obj.plane.normal_n))
 		return (print_error(6), -1);
 	w->shapes[w->num_shapes - 1].obj.plane.normal_n = vec_normalise(w->shapes[w->num_shapes - 1].obj.plane.normal_n);
 	if (get_color(args[3], &(w->shapes[w->num_shapes - 1].mat.color)) == -1)
@@ -256,7 +250,7 @@ int	add_cylinder(char **args, t_world *w)
 	w->shapes[w->num_shapes - 1].type = CYLINDER;
 	if (get_tuple(args[1], &(w->shapes[w->num_shapes - 1].obj.cyl.centre), 1) == -1)
 		return (print_error(7), -1);
-	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.cyl.axis_n), 0) == -1)
+	if (get_tuple(args[2], &(w->shapes[w->num_shapes - 1].obj.cyl.axis_n), 0) == -1 || is_zero(w->shapes[w->num_shapes - 1].obj.cyl.axis_n))
 		return (print_error(7), -1);
 	w->shapes[w->num_shapes - 1].obj.cyl.axis_n = vec_normalise(w->shapes[w->num_shapes - 1].obj.cyl.axis_n);
 	if (ft_atod(args[3], &(w->shapes[w->num_shapes - 1].obj.cyl.radius)) == -1 ||
@@ -325,9 +319,15 @@ int	parse_file(char *file, t_world *world)
 				line[ft_strlen(line) - 1] = '\0';
 			args = ft_split(line, ' ');
 			if (args == NULL)
+            {
+                get_next_line(-1);
 				return (free(line), -1);
+            }
 			if (process_args(args, world) == -1)
+            {
+                get_next_line(-1);
 				return (free_args(args), free(line), -1);
+            }
 			free_args(args);
 		}
 		free(line);
