@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:18:59 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 10:46:36 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:00:45 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,13 @@ t_ray	ray_for_pixel(t_world *w, double px, double py)
 
 t_color	run_raytracer(t_world *w, int x, int y)
 {
-	t_ray	cam_ray;
+	t_ray			cam_ray;
 	t_intersection	hit;
-	t_color	color;
+	t_color			color;
 
+	hit.shape = NULL;
 	cam_ray = ray_for_pixel(w, (double) x , (double) y); // in world-space
-	if (intersections(cam_ray, *w, &hit) == -1)
-	{
-		free_world(w);
-		exit(1);
-	}
+	intersections(cam_ray, *w, &hit);
 	if (hit.shape == NULL)
 	{
 		color.r = 0.0;

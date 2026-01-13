@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 13:17:49 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 10:35:55 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void	my_pixel_put(t_image *img, int x, int y, int color);
 int		rgb_color(double r, double g, double b);
 // raytracer
 t_color	run_raytracer(t_world *w, int x, int y);
-int		intersections(t_ray ray, t_world world, t_intersection *hit);
+void	intersections(t_ray ray, t_world world, t_intersection *hit);
 t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt);
 
 #endif
