@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 19:37:46 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:39:50 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ t_tuple	add_tuples(t_tuple a, t_tuple b);
 t_tuple	substr_tuples(t_tuple a, t_tuple b);
 t_tuple	neg_tuples(t_tuple a);
 // vector operations
-double	dot_product(t_tuple a, t_tuple b);
+double	dot(t_tuple a, t_tuple b);
 t_tuple	mult_vec_scalar(t_tuple vec, double scal);
 double	vec_magnitude(t_tuple vec);
 t_tuple	vec_normalise(t_tuple vec);
