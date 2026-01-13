@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 18:23:00 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:03:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,9 @@ int	is_in_shadow(t_world *w, t_tuple pt, t_light light)
 	shadow_ray.origin = pt;
 	shadow_ray.dir = substr_tuples(light.point, pt);
     dist = vec_magnitude(shadow_ray.dir);
+	hit.shape = NULL;
     shadow_ray.dir = vec_normalise(shadow_ray.dir);
-	if (intersections(shadow_ray, *w, &hit) == -1)
-	{
-		free_world(w);
-		exit(1);
-	}
+	intersections(shadow_ray, *w, &hit);
 	if (hit.shape == NULL || hit.t > dist)
 		return (0);
 	return (1);

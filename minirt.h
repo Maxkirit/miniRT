@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 11:32:28 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:55:26 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,6 @@ t_shape	*shape_realloc(t_shape *old, int new_size);
 t_light	*light_realloc(t_light *old, int new_size);
 int		check_int_conversion(char *str, int num);
 void	free_args(char **args);
-double	*res_realloc(double *res, int size, t_intersect sol);
 t_intersection	*inter_realloc(t_intersection *old, int old_size, t_intersection *sol, int num_sol);
 //mlx
 void	init_mlx(t_mlx *data, int screen_x, int screen_y);
@@ -221,7 +220,7 @@ void	my_pixel_put(t_image *img, int x, int y, int color);
 int		rgb_color(double r, double g, double b);
 // raytracer
 t_color	run_raytracer(t_world *w, int x, int y);
-int		intersections(t_ray ray, t_world world, t_intersection *hit);
+void	intersections(t_ray ray, t_world world, t_intersection *hit);
 t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt);
 void	check_light_spacing (t_world *w);
 //geometry
