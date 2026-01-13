@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 16:45:53 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 14:24:25 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 14:59:51 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static t_mat	cyl_mtx(t_shape obj)
 	vars.scale1 = mat_mult(vars.rotate2, vars.scale);
 	if (!vars.scale1.data)
 		return (free(vars.scale.data), free(vars.rotate.data), free(vars.translate.data), free(vars.rotate1.data), free(vars.rotate2.data), vars.scale1);
-	vars.ret = mat_mult(vars.translate, vars.scale);
+	vars.ret = mat_mult(vars.translate, vars.scale1);
 	free_cyl_mtx(&vars);
 	return (vars.ret);
 }
