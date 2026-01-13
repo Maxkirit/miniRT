@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 20:44:54 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 09:39:28 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	intersect_sphere(t_shape *sphere, t_ray ray, t_intersection **res)
 	if (!(*res))
 		return (-1);
 	(*res)[0].shape = sphere;
-	(*res)[0].t = (double) ((b * -1) - sqrt(discriminant)) / (2.0 * a);
+	(*res)[0].t = (double) ((b * -1.0) - sqrt(discriminant)) / (2.0 * a);
 	if (num == 2)
 	{
 		(*res)[1].shape = sphere;
-		(*res)[1].t = (double) ((b * -1) + sqrt(discriminant)) / (2.0 * a);
+		(*res)[1].t = (double) ((b * -1.0) + sqrt(discriminant)) / (2.0 * a);
 	}
 	return (num);
 }
@@ -150,22 +150,22 @@ int	intersect_cyl(t_shape *cyl, t_ray ray, t_intersection **res)
 	if (!(*res))
 		return (-1);
 	(*res)[0].shape = cyl;
-	(*res)[0].t = (double) ((b * -1) - sqrt(discriminant)) / (2.0 * a);
+	(*res)[0].t = (double) ((b * -1.0) - sqrt(discriminant)) / (2.0 * a);
 	(*res)[1].shape = cyl;
-	(*res)[1].t = (double) ((b * -1) + sqrt(discriminant)) / (2.0 * a);
+	(*res)[1].t = (double) ((b * -1.0) + sqrt(discriminant)) / (2.0 * a);
 	return (handle_cyl_height(ray, res));
 }
 
 static int	find_min_t(t_intersect *res, int size, t_intersection *hit)
 {
 	int	i;
-	int	lowest_t;
+	double	lowest_t;
 
 	i = 0;
-	lowest_t = -1;
+	lowest_t = -1.0;
 	while (i < size)
 	{
-		if (res->table[i].t > 0.0 && (res->table[i].t < lowest_t || lowest_t == -1))
+		if (res->table[i].t > 0.0 && (res->table[i].t < lowest_t || equal(lowest_t, -1.0)))
 		{
 			lowest_t = res->table[i].t ;
 			*hit = res->table[i];
