@@ -9,9 +9,14 @@ SRC = utils/math_utils.c \
 	tuple_mtx_ops/vector_ops.c \
 	mlx_functions/render_utils.c \
 	mlx_functions/mlx_event_handling.c \
+	intersections/intersect_sphere.c \
+	intersections/intersect_plane.c \
+	intersections/intersect_cylinder.c \
 	intersections/intersections.c \
 	lighting/lighting.c \
 	lighting/light_spacing.c \
+	lighting/lighting_utils.c \
+	lighting/surface_n.c \
 	raytracer.c \
 	main.c
 
