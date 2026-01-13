@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 14:25:06 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 20:07:34 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 16:06:40 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ int	add_cylinder(char **args, t_world *w)
 	if (ft_atod(args[3], &(w->shapes[w->num_shapes - 1].obj.cyl.radius)) == -1 ||
 		w->shapes[w->num_shapes - 1].obj.cyl.radius < 0.0)
 		return (print_error(7), -1);
-	w->shapes[w->num_shapes - 1].obj.cyl.radius /= 2;
+	w->shapes[w->num_shapes - 1].obj.cyl.radius /= 2.0;
 	if (ft_atod(args[4], &(w->shapes[w->num_shapes - 1].obj.cyl.height)) == -1 ||
 		w->shapes[w->num_shapes - 1].obj.cyl.height < 0.0)
 		return (print_error(7), -1);

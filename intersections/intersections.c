@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 12:02:06 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 16:32:56 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,35 @@ int	check_cap(t_ray ray, double t)
 
 	x = ray.origin.x + t * ray.dir.x;
 	z = ray.origin.z + t * ray.dir.z;
-	return ((pow(x, 2.0) + pow(z, 2.0) < 1) || equal(pow(x, 2.0) + pow(z, 2.0), 1.0));
+	return ((pow(x, 2.0) + pow(z, 2.0)) < (1.0 + EPSILON));
 }
 
 int	intersect_caps(t_shape *cyl, t_ray ray, t_intersection res[2])
 {
-	int	i;
-
+	int		i;
+	double	t;
+	
 	i = 0;
 	ray.dir = mat_tuple_mult(cyl->from_world, ray.dir);
 	ray.origin = mat_tuple_mult(cyl->from_world, ray.origin);
+	res[0].shape = NULL;
 	if (equal(ray.dir.y, 0.0))
 		return (0);
-	res[i].shape = cyl;
-	res[i].t = (0.5 - ray.origin.y) / ray.dir.y;
-	if (check_cap(ray, res[i].t))
-		i++;
-	res[i].shape = cyl;
-	res[i].t = (-0.5 - ray.origin.y) / ray.dir.y;
-	if (!check_cap(ray, res[i].t))
+	t = (0.5 - ray.origin.y) / ray.dir.y;
+	if (check_cap(ray, t))
 	{
-		res[i].shape = NULL;
-		if (i == 0)
-			return (0);
-		return (1);
+		res[i].shape = cyl;
+		res[i].t = t;
+		i++;
 	}
-	return (2);
+	t = (-0.5 - ray.origin.y) / ray.dir.y;
+	if (check_cap(ray, t))
+	{
+		res[i].shape = cyl;
+		res[i].t = t;
+		i++;
+	}
+	return (i);
 }
 
 // in object space, cyl is vertical along y axis

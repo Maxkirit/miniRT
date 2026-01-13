@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 13:48:05 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 16:24:27 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,21 @@ t_tuple	surface_n_cylinder(t_shape *cyl, t_tuple pt)
 	double	dist;
 	t_tuple	obj_pt;
 	t_tuple	obj_normal;
+	t_mat	transp;
 	t_tuple	w_normal;
 
 	obj_pt = mat_tuple_mult(cyl->from_world, pt);
 	dist = pow(obj_pt.x, 2.0) + pow(obj_pt.z, 2.0);
-	if (dist < 1 && !(obj_pt.y < 0.5 - EPSILON))
+	if (dist < 1 && obj_pt.y >= (0.5 - EPSILON))
 		obj_normal = vector(0, 1, 0);
-	else if (dist < 1 && !(obj_pt.y > -0.5 + EPSILON))
+	else if (dist < 1 && obj_pt.y <= (-0.5 + EPSILON))
 		obj_normal = vector(0, -1, 0);
 	else
 		obj_normal = vector(obj_pt.x, 0, obj_pt.z);
-	w_normal = mat_tuple_mult(cyl->to_world, obj_normal);
+	transp = transpose(cyl->from_world);
+	w_normal = mat_tuple_mult(transp, obj_normal);
+	w_normal.pt = 0;
+	free(transp.data);
 	return (vec_normalise(w_normal));
 }
 
