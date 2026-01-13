@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 13:15:53 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 14:20:54 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,15 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
-typedef struct s_mlx
+typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win;
 	t_image	img;
 	int		x;
 	int		y;
-}	t_mlx;
+	t_world	*w;
+}	t_data;
 
 typedef struct	s_intersection
 {
@@ -163,11 +164,18 @@ typedef struct	s_intersection
 	double	t;
 }	t_intersection;
 
-typedef struct s_intersect
+typedef struct	s_cyl_mtx
 {
-	t_intersection	*table;
-	int				size;
-}	t_intersect;
+	t_mat	scale;
+	t_mat	scale1;
+	t_mat	translate;
+	t_mat	rotate;
+	t_mat	rotate1;
+	t_mat	rotate2;
+	t_mat	ret;
+	double	radius;
+	double	height;
+}	t_cyl_mtx;
 
 // tuple operations
 t_tuple	point(double x, double y, double z);
@@ -213,9 +221,9 @@ t_light	*light_realloc(t_light *old, int new_size);
 int		check_int_conversion(char *str, int num);
 void	free_args(char **args);
 //mlx
-void	init_mlx(t_mlx *data, int screen_x, int screen_y);
-void	error(t_mlx *data);
-void	end_program(t_mlx *data);
+void	init_mlx(t_data *data, int screen_x, int screen_y);
+void	error(t_data *data);
+void	end_program(t_data *data);
 void	my_pixel_put(t_image *img, int x, int y, int color);
 int		rgb_color(double r, double g, double b);
 // raytracer

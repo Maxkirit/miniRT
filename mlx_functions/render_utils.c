@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 18:03:31 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 10:44:46 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 13:24:44 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,3 @@ int	rgb_color(double r, double g, double b)
 	ret = (round_r << 16) | (round_g << 8) | round_b;
 	return (ret);
 }
-
-//mlx_new_img each time new render needed
-// int	draw_lines_to_img(t_mlx *data)
-// {
-// 	data->img.pointer = mlx_new_image(data->mlx_ptr, data->x, data->y);
-// 	if (!data->img.pointer)
-// 		return (0);
-// 	data->img.pixels = mlx_get_data_addr(data->img.pointer, &data->bpp,
-// 			&data->img.line_size, &data->img.endian);
-// 	if (!data->img.pixels)
-//     {
-//         mlx_destroy_image(data->mlx_ptr, data->img.pointer);
-//         return (0);
-//     }
-// 	if (/*draw pixel on data->img->pointer with my_pixel_put*/)
-// 	{
-// 		mlx_destroy_image(data->mlx_ptr, data->img.pointer);
-// 		return (0);
-// 	}
-// 	mlx_put_image_to_window(data->mlx_ptr, data->win, data->img.pointer, 0, 0);
-// 	mlx_destroy_image(data->mlx_ptr, data->img.pointer);
-// 	return (1);
-// }

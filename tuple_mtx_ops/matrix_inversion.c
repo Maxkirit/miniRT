@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 11:26:47 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 10:23:02 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 13:45:11 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,13 @@ t_mat	submatrix(t_mat mat, int row, int col)
 
 double	minor(t_mat mat, int row, int col)
 {
-	return (determinant(submatrix(mat, row, col)));
+	t_mat	submat;
+	double	ret;
+
+	submat = submatrix(mat, row, col);
+	ret = determinant(submat);
+	free(submat.data);
+	return (ret);
 }
 
 double	cofactor(t_mat mat, int row, int col)

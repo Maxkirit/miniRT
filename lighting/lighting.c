@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 12:03:15 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 11:03:44 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 13:48:05 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ t_tuple	surface_n_shere(t_shape *sphere, t_tuple pt)
 {
 	t_tuple	obj_pt;
 	t_tuple	obj_normal;
+	t_mat	transp;
 	t_tuple	w_normal;
 
 	obj_pt = mat_tuple_mult(sphere->from_world, pt);
 	obj_normal = substr_tuples(obj_pt, point(0, 0, 0));
-	w_normal = mat_tuple_mult(transpose(sphere->from_world), obj_normal);
+	transp = transpose(sphere->from_world);
+	w_normal = mat_tuple_mult(transp, obj_normal);
 	w_normal.pt = 0;
+	free(transp.data);
 	return (vec_normalise(w_normal));
 }
 
