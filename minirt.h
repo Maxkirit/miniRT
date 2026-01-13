@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/13 11:55:26 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 12:02:21 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,12 +206,10 @@ int		parse_file(char *file, t_world *world);
 // utils
 void	free_world(t_world *w);
 int		equal(double a, double b);
-double	square(double x);
 t_shape	*shape_realloc(t_shape *old, int new_size);
 t_light	*light_realloc(t_light *old, int new_size);
 int		check_int_conversion(char *str, int num);
 void	free_args(char **args);
-t_intersection	*inter_realloc(t_intersection *old, int old_size, t_intersection *sol, int num_sol);
 //mlx
 void	init_mlx(t_mlx *data, int screen_x, int screen_y);
 void	error(t_mlx *data);

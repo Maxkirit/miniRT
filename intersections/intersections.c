@@ -6,7 +6,7 @@
 /*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:16:42 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 10:52:00 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 12:02:06 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,42 +143,6 @@ int	intersect_cyl(t_shape *cyl, t_ray ray, t_intersection res[2])
 	res[1].t = (double) ((b * -1.0) + sqrt(discriminant)) / (2.0 * a);
 	return (handle_cyl_height(ray, res));
 }
-
-// static int	find_min_t(t_intersect *res, int size, t_intersection *hit)
-// {
-// 	int	i;
-// 	double	lowest_t;
-
-// 	i = 0;
-// 	lowest_t = -1.0;
-// 	while (i < size)
-// 	{
-// 		if (res->table[i].t > 0.0 && (res->table[i].t < lowest_t || equal(lowest_t, -1.0)))
-// 		{
-// 			lowest_t = res->table[i].t ;
-// 			*hit = res->table[i];
-// 		}
-// 		i++;
-// 	}
-// 	if (lowest_t == -1)
-// 		hit->shape = NULL;
-// 	free(res->table);
-// 	return (1);
-// }
-
-// int	add_solution(int sol_size, t_intersect 	*inter, t_intersection **solutions)
-// {
-// 	if (sol_size == -1)
-// 		return (free(inter->table), -1);
-// 	if (sol_size > 0)
-// 	{
-// 		inter->table = inter_realloc(inter->table, inter->size, *solutions, sol_size);
-// 		if (inter->table == NULL)
-// 			return (free(inter->table), -1);
-// 		inter->size += sol_size;
-// 	}
-// 	return (0);
-// }
 
 void	is_hit(t_intersection solutions[2], int sol_size, t_intersection *hit)
 {

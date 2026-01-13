@@ -10,7 +10,6 @@ SRC = utils/math_utils.c \
 	mlx_functions/render_utils.c \
 	mlx_functions/mlx_event_handling.c \
 	intersections/intersections.c \
-	intersections/intersections_utils.c \
 	lighting/lighting.c \
 	lighting/light_spacing.c \
 	raytracer.c \
