@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
+/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:24:39 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/13 13:15:32 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 13:59:28 by mkeerewe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	init_mlx_infra(t_mlx *mlx)
+void	init_mlx_infra(t_data *mlx)
 {
 	init_mlx(mlx, SCREEN_W, SCREEN_H);
 	mlx->img.pointer = mlx_new_image(mlx->mlx_ptr, SCREEN_W, SCREEN_H);
@@ -48,6 +48,7 @@ void	free_world(t_world *w)
 		free(w->shapes[i].from_world.data);
 		i++;
 	}
+	free(w->shapes);
 	free(w->lights);
 }
 
@@ -97,7 +98,7 @@ double	compute_pixel_step(t_cam *cam, int hor, int ver)
 
 int	main(int argc, char *argv[])
 {
-	t_mlx	mlx;
+	t_data	mlx;
 	t_world	w;
 	int		i;
 	int		j;
@@ -113,6 +114,7 @@ int	main(int argc, char *argv[])
 	if (set_transfo_mtx(&w) == -1)
 		return (free_world(&w), 1);
     check_light_spacing(&w);
+	mlx.w = &w;
 	init_mlx_infra(&mlx);
 	w.cam.pixel_step = compute_pixel_step(&w.cam, mlx.x, mlx.y);
 	while (i < mlx.x)
@@ -128,7 +130,7 @@ int	main(int argc, char *argv[])
 		i++;
 	}
 	mlx_put_image_to_window(mlx.mlx_ptr, mlx.win, mlx.img.pointer, 0, 0);
-	printf("Done with raycasting\n"); // for testing purposes
+	printf("Done with raytracing\n"); // for testing purposes
 	mlx_destroy_image(mlx.mlx_ptr, mlx.img.pointer);
 	mlx_loop(mlx.mlx_ptr);
 	end_program(&mlx);
