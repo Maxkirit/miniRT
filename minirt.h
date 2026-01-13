@@ -6,7 +6,7 @@
 /*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 18:05:05 by mkeerewe          #+#    #+#             */
-/*   Updated: 2026/01/12 13:17:49 by mturgeon         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:32:28 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,5 +223,9 @@ int		rgb_color(double r, double g, double b);
 t_color	run_raytracer(t_world *w, int x, int y);
 int		intersections(t_ray ray, t_world world, t_intersection *hit);
 t_color	lighting(t_world *w, t_shape *shape, t_tuple cam_v, t_tuple pt);
-
+void	check_light_spacing (t_world *w);
+//geometry
+t_tuple	surface_n_shere(t_shape *sphere, t_tuple pt);
+t_tuple	surface_n_plane(t_shape *plane);
+t_tuple	surface_n_cylinder(t_shape *cyl, t_tuple pt);
 #endif

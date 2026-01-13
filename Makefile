@@ -12,6 +12,7 @@ SRC = utils/math_utils.c \
 	intersections/intersections.c \
 	intersections/intersections_utils.c \
 	lighting/lighting.c \
+	lighting/light_spacing.c \
 	raytracer.c \
 	main.c
 

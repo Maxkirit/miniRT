@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkeerewe <mkeerewe@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: mturgeon <maxime.p.turgeon@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:24:39 by mturgeon          #+#    #+#             */
-/*   Updated: 2026/01/12 14:21:54 by mkeerewe         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:18:00 by mturgeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	main(int argc, char *argv[])
 		return (free_world(&w), 1);
 	if (set_transfo_mtx(&w) == -1)
 		return (free_world(&w), 1);
+    check_light_spacing(&w);
 	init_mlx_infra(&mlx);
 	w.cam.pixel_step = compute_pixel_step(&w.cam, mlx.x, mlx.y);
 	while (i < mlx.x)
